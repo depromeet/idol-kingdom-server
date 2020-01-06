@@ -1,1 +1,5 @@
 # idol-kingdom-server
+
+
+
+,,
