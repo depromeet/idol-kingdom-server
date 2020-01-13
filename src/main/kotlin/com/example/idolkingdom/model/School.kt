@@ -7,6 +7,7 @@ data class School(
         @Id @GeneratedValue
         val id: String? = null,
         val name: String,
+        @Embedded
         val location: Location,
         val level: Level,
         @OneToMany(mappedBy = "school", cascade = [CascadeType.ALL])

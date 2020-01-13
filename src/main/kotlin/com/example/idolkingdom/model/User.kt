@@ -24,7 +24,7 @@ data class User(
         @JoinColumn(name = "idol_group_id")
         val myIdol: IdolGroup? = null,
 
-        val lovedGroups: List<IdolGroup>? = null,
-        val votedList: List<Vote>? = null,
+//        val lovedGroups: List<IdolGroup>? = null,
+//        val votedList: List<Vote>? = null,
         val createdAt: LocalDateTime? = null
 )
