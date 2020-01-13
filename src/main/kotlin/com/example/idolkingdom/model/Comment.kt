@@ -1,14 +1,22 @@
 package com.example.idolkingdom.model
 
 import java.time.ZonedDateTime
+import javax.persistence.*
 
-
+@Entity
+@Table(name = "comment")
 data class Comment(
     val id: Int,
+    @ManyToOne
+    @JoinColumn(name = "user_id")
     val writer: User,
     val content: String,
-    val target: CommentTarget,
+    @ManyToOne
+    @JoinColumn(name = "idol_group_id")
+    val idolGroup: IdolGroup,
+    @ManyToOne
+    @JoinColumn(name = "school_id")
+    val school: School,
     val createdAt: ZonedDateTime,
-    val updatedAt: ZonedDateTime,
-    val likes: List<User>
+    val updatedAt: ZonedDateTime
 )
