@@ -1,6 +1,6 @@
 package com.example.idolkingdom.model
 
-import java.util.*
+import java.time.ZonedDateTime
 
 data class Idol(
     val id: Int,
@@ -10,12 +10,7 @@ data class Idol(
     val groups: List<IdolGroup>,
     val entertainment: Entertainment,
     val graduation: String,
-    val dateOfBirth: Date,
+    val dateOfBirth: ZonedDateTime,
     val hometown: String,
     val images: List<String>
-) {
-
-    enum class BloodType {
-        A, B, AB, O
-    }
-}
+)

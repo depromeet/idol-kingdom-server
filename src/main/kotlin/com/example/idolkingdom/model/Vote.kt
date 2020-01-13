@@ -1,17 +1,11 @@
 package com.example.idolkingdom.model
 
-import java.util.*
+import java.time.ZonedDateTime
 
 data class Vote(
     val id: Int,
-    val startDate: Date,
-    val endDate: Date,
+    val startDate: ZonedDateTime,
+    val endDate: ZonedDateTime,
     val target: IdolGroup,
     val votingList: List<Voting>
-) {
-    data class Voting(
-        val id: Int,
-        val user: User,
-        val date: Date
-    )
-}
+)

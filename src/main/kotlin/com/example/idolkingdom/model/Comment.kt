@@ -1,19 +1,14 @@
 package com.example.idolkingdom.model
 
-import java.util.*
+import java.time.ZonedDateTime
 
 
 data class Comment(
     val id: Int,
     val writer: User,
     val content: String,
-    val target: Target,
-    val createdAt: Date,
-    val updatedAt: Date,
+    val target: CommentTarget,
+    val createdAt: ZonedDateTime,
+    val updatedAt: ZonedDateTime,
     val likes: List<User>
-) {
-    data class Target(
-        val idolGroup: IdolGroup,
-        val school: School
-    )
-}
+)
