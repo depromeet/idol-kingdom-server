@@ -1,11 +1,16 @@
 package com.example.idolkingdom.model
 
+import javax.persistence.*
+
+@Entity
 data class School(
-    val id: String,
-    val name: String,
-    val location: Location,
-    val level: Level,
-    val users: List<User>
+        @Id @GeneratedValue
+        val id: String? = null,
+        val name: String,
+        val location: Location,
+        val level: Level,
+        @OneToMany(mappedBy = "school", cascade = [CascadeType.ALL])
+        val users: List<User>
 ) {
 
     enum class Level {
