@@ -10,15 +10,15 @@ import javax.persistence.Id
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 data class User(
-    @Id @GeneratedValue
-    val id: Int,
+        @Id @GeneratedValue
+        val id: Int? = null,
 
-    val email: String,
-    val password: String,
-    val name: String,
+        val email: String,
+        val password: String,
+        val name: String,
 
-    val school: School,
-    val lovedGroups: List<IdolGroup>,
-    val votedList: List<Vote>,
-    val createdAt: LocalDateTime
+        val school: School? = null,
+        val lovedGroups: List<IdolGroup>? = null,
+        val votedList: List<Vote>? = null,
+        val createdAt: LocalDateTime? = null
 ) {}
