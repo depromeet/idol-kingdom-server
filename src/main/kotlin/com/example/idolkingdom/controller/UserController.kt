@@ -7,10 +7,7 @@ import com.example.idolkingdom.service.UserService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("/api")
@@ -24,9 +21,15 @@ class UserController(@Autowired private val userService: UserService) {
     }
 
     @PostMapping("/users")
-    fun createMember(@RequestBody userDto: UserDto): ResponseEntity<String> {
+    fun createUser(@RequestBody userDto: UserDto): ResponseEntity<String> {
         userService.createUser(userDto)
         return ResponseEntity(HttpStatus.CREATED)
+    }
+
+    @PutMapping("/users")
+    fun updateUser(@RequestBody userDto: UserDto): ResponseEntity<String> {
+        userService.updateUser(userDto);
+        return ResponseEntity(HttpStatus.ACCEPTED)
     }
 
 
