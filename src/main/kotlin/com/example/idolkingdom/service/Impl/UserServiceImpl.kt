@@ -27,7 +27,6 @@ class UserServiceImpl(@Autowired private val userRepository: UserRepository,
     }
 
     override fun updateUser(userDto: UserDto): User {
-
         return userRepository.save(userDto.toUser())
     }
 

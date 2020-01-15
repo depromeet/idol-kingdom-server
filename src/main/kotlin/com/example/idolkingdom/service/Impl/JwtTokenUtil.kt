@@ -16,17 +16,13 @@ class JwtTokenUtil {
                 .sign(Algorithm.HMAC256("JWT_KEY"))
 
         return token
-
     }
 
 
-    fun getMemberId(token: String): Long? {
-        return try {
-            val jwt = JWT.decode(token)
-            jwt.getClaim("USER_ID").asLong()
-        } catch (ex: Exception) {
-            null
-        }
+    fun getMemberId(token: String): Long? = try {
+        val jwt = JWT.decode(token)
+        jwt.getClaim("USER_ID").asLong()
+    } catch (ex: Exception) {
+        null
     }
-
 }
