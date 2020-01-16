@@ -40,6 +40,9 @@ dependencies {
     testImplementation("org.springframework.boot:spring-boot-starter-test") {
         exclude(group = "org.junit.vintage", module = "junit-vintage-engine")
     }
+    
+    compile group: 'com.fasterxml.jackson.module', name: 'jackson-module-kotlin', version: '2.4.2-rc1'
+
 }
 
 tasks.withType<Test> {
