@@ -6,6 +6,8 @@ import javax.persistence.*
 @Entity
 @Table(name = "comment")
 data class Comment(
+    @Id
+    @GeneratedValue
     val id: Int,
     @ManyToOne
     @JoinColumn(name = "user_id")

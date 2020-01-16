@@ -6,6 +6,8 @@ import javax.persistence.*
 @Entity
 @Table(name = "ballot")
 data class Ballot(
+    @Id
+    @GeneratedValue
     val id: Int,
     @ManyToOne
     @JoinColumn(name = "user_id")

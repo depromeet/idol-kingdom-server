@@ -6,6 +6,8 @@ import javax.persistence.*
 @Entity
 @Table(name = "vote")
 data class Vote(
+    @Id
+    @GeneratedValue
     val id: Int,
     val startDate: ZonedDateTime,
     val endDate: ZonedDateTime,

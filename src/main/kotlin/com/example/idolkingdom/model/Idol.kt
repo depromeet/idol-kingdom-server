@@ -6,6 +6,8 @@ import javax.persistence.*
 @Entity
 @Table(name = "idol")
 data class Idol(
+    @Id
+    @GeneratedValue
     val id: Int,
     val name: String,
     val description: String,
