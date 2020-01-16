@@ -7,14 +7,16 @@ import javax.persistence.*
 data class School(
     @Id
     @GeneratedValue
-    val id: String,
+    val id: Long? = null,
     val name: String,
+    val address: String,
     @Embedded
     val location: Location,
-    @Enumerated(EnumType.ORDINAL)
+    @Enumerated(EnumType.STRING)
     val level: Level,
     @OneToMany(mappedBy = "school", cascade = [CascadeType.ALL])
-    val users: List<User>
+    val users: List<User>? = null
+
 ) {
     enum class Level {
         ELEMENT, MIDDLE, HIGH, UNIVERSAL
