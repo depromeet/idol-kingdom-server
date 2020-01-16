@@ -49,7 +49,7 @@ class UserServiceImpl(@Autowired private val userRepository: UserRepository,
         return user
     }
 
-    private fun isCorrectPassword(password: String, user: User): Boolean { //비교대상이 앞으로 와야한다, 순서가 바뀌면 에러남
+    private fun isCorrectPassword(password: String, user: User): Boolean {
         return passwordEncoder.matches(user.password, password)
     }
 }
