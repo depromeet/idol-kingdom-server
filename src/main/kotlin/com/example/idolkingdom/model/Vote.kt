@@ -1,17 +1,16 @@
 package com.example.idolkingdom.model
 
-import java.util.*
+import java.time.LocalDateTime
+import javax.persistence.*
 
+@Entity
+@Table(name = "vote")
 data class Vote(
+    @Id
+    @GeneratedValue
     val id: Int,
-    val startDate: Date,
-    val endDate: Date,
-    val target: IdolGroup,
-    val votingList: List<Voting>
-) {
-    data class Voting(
-        val id: Int,
-        val user: User,
-        val date: Date
-    )
-}
+    val startDate: LocalDateTime,
+    val endDate: LocalDateTime,
+    @OneToMany(mappedBy = "vote")
+    val ballots: List<Ballot>
+)

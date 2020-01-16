@@ -42,6 +42,8 @@ dependencies {
     }
 
     implementation("com.auth0:java-jwt:3.8.3")
+    api("io.springfox:springfox-swagger-ui:2.9.2")
+    api("io.springfox:springfox-swagger2:2.9.2")
 }
 
 tasks.withType<Test> {

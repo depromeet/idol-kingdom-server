@@ -4,21 +4,19 @@ import java.time.LocalDateTime
 import javax.persistence.*
 
 @Entity
-@Table(name = "comment")
-data class Comment(
+@Table(name = "ballot")
+data class Ballot(
     @Id
     @GeneratedValue
     val id: Int,
     @ManyToOne
     @JoinColumn(name = "user_id")
-    val writer: User,
-    val content: String,
+    val user: User,
     @ManyToOne
     @JoinColumn(name = "idol_group_id")
-    val idolGroup: IdolGroup,
+    val idol: IdolGroup,
     @ManyToOne
-    @JoinColumn(name = "school_id")
-    val school: School,
-    val createdAt: LocalDateTime,
-    val updatedAt: LocalDateTime
+    @JoinColumn(name = "vote_id")
+    val vote: Vote,
+    val date: LocalDateTime
 )
