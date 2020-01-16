@@ -12,12 +12,12 @@ data class IdolGroup(
     val description: String,
     @ManyToMany
     @JoinTable(name = "idol_group_members")
-    val members: List<Idol>,
+    private val members: List<Idol>,
     @OneToMany
     @JoinColumn(name = "idol_group_id")
     val images: List<Image>,
-    @ManyToMany(mappedBy = "idols")
-    val fans : List<User>,
+//    @ManyToMany(mappedBy = "idols")
+//    val fans : List<User>,
     @OneToMany(mappedBy = "idol")
     val ballots: List<Ballot>
 )
