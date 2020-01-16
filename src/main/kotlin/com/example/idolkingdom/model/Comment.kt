@@ -1,6 +1,6 @@
 package com.example.idolkingdom.model
 
-import java.time.ZonedDateTime
+import java.time.LocalDateTime
 import javax.persistence.*
 
 @Entity
@@ -19,6 +19,6 @@ data class Comment(
     @ManyToOne
     @JoinColumn(name = "school_id")
     val school: School,
-    val createdAt: ZonedDateTime,
-    val updatedAt: ZonedDateTime
+    val createdAt: LocalDateTime,
+    val updatedAt: LocalDateTime
 )

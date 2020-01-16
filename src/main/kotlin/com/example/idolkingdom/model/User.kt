@@ -1,6 +1,6 @@
 package com.example.idolkingdom.model
 
-import java.time.ZonedDateTime
+import java.time.LocalDateTime
 import javax.persistence.*
 
 @Entity
@@ -20,5 +20,5 @@ data class User(
     val idols: List<IdolGroup>,
     @OneToMany(mappedBy = "user")
     val ballots: List<Ballot>,
-    val createdAt: ZonedDateTime
+    val createdAt: LocalDateTime
 )

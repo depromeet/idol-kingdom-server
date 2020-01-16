@@ -1,6 +1,6 @@
 package com.example.idolkingdom.model
 
-import java.time.ZonedDateTime
+import java.time.LocalDateTime
 import javax.persistence.*
 
 @Entity
@@ -19,7 +19,7 @@ data class Idol(
     @JoinColumn(name = "entertainment_id")
     val entertainment: Entertainment,
     val graduation: String,
-    val dateOfBirth: ZonedDateTime,
+    val dateOfBirth: LocalDateTime,
     val hometown: String,
     val images: List<String>
 ) {

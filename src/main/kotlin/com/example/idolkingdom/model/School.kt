@@ -9,6 +9,7 @@ data class School(
     @GeneratedValue
     val id: String,
     val name: String,
+    @Embedded
     val location: Location,
     @Enumerated(EnumType.ORDINAL)
     val level: Level,

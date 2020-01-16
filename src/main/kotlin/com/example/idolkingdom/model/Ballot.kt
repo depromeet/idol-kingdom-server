@@ -1,6 +1,6 @@
 package com.example.idolkingdom.model
 
-import java.util.*
+import java.time.LocalDateTime
 import javax.persistence.*
 
 @Entity
@@ -18,5 +18,5 @@ data class Ballot(
     @ManyToOne
     @JoinColumn(name = "vote_id")
     val vote: Vote,
-    val date: Date
+    val date: LocalDateTime
 )
