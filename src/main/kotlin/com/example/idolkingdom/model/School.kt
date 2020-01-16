@@ -13,7 +13,7 @@ data class School(
     val location: Location,
     @Enumerated(EnumType.ORDINAL)
     val level: Level,
-    @OneToMany(mappedBy = "schools", cascade = [CascadeType.ALL])
+    @OneToMany(mappedBy = "school", cascade = [CascadeType.ALL])
     val users: List<User>
 ) {
     enum class Level {

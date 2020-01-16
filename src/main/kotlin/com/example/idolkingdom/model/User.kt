@@ -11,18 +11,21 @@ import javax.persistence.*
 data class User(
     @Id
     @GeneratedValue
-    val id: Int,
+    val id: Int? = null,
     val email: String,
     val password: String,
     val name: String,
     val nickName: String,
-    @ManyToMany
-    @JoinTable(name = "user_schools")
-    val schools: List<School>,
-    @ManyToMany
-    @JoinTable(name = "user_idols")
-    val idols: List<IdolGroup>,
-    @OneToMany(mappedBy = "user")
-    val ballots: List<Ballot>,
-    val createdAt: LocalDateTime
+
+    @ManyToOne
+    @JoinColumn(name = "school_id")
+    val school: School? = null,
+
+//    @ManyToMany
+//    @JoinTable(name = "user_idols")
+//    val idols: List<IdolGroup>? = null,
+//
+//    @OneToMany(mappedBy = "user")
+//    val ballots: List<Ballot>? = null,
+    val createdAt: LocalDateTime? = null
 )

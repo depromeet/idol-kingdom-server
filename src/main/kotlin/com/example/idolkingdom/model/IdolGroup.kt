@@ -16,8 +16,8 @@ data class IdolGroup(
     @OneToMany
     @JoinColumn(name = "idol_group_id")
     val images: List<Image>,
-    @ManyToMany(mappedBy = "idols")
-    val fans : List<User>,
+//    @ManyToMany(mappedBy = "idols")
+//    val fans : List<User>,
     @OneToMany(mappedBy = "idol")
     val ballots: List<Ballot>
 )

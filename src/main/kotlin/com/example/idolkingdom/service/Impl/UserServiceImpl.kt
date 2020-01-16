@@ -9,14 +9,17 @@ import com.example.idolkingdom.model.User
 import com.example.idolkingdom.repository.UserRepository
 import com.example.idolkingdom.service.UserService
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
 
 @Service
 class UserServiceImpl(@Autowired private val userRepository: UserRepository,
-                      @Autowired private val jwtTokenUtil: JwtTokenUtil) : UserService {
+                      @Autowired private val jwtTokenUtil: JwtTokenUtil,
+                      @Autowired private val passwordEncoder: PasswordEncoder) : UserService {
 
     override fun createUser(userDto: UserDto): User {
         validCreateUser(userDto)
+        userDto.password = passwordEncoder.encode(userDto.password)
         return userRepository.save(userDto.toUser())
     }
 
@@ -39,10 +42,14 @@ class UserServiceImpl(@Autowired private val userRepository: UserRepository,
 
     private fun validLogin(loginRequestDto: LoginRequestDto): User {
         val user: User = userRepository.findByEmail(loginRequestDto.email)
-                ?: throw UserNotFoundException("..")
-        if (user.password != loginRequestDto.password) {
+            ?: throw UserNotFoundException("..")
+        if (isCorrectPassword(loginRequestDto.password, user)) {
             throw UserDataNotValidException("")
         }
         return user
+    }
+
+    private fun isCorrectPassword(password: String, user: User): Boolean { //비교대상이 앞으로 와야한다, 순서가 바뀌면 에러남
+        return passwordEncoder.matches(user.password, password)
     }
 }
