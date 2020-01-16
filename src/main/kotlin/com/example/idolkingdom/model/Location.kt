@@ -4,6 +4,7 @@ import javax.persistence.Embeddable
 
 @Embeddable
 data class Location(
-        val latitude: Float,
-        val longitude: Float
+    val x: Float,
+    val y: Float,
+    val z: Float
 )

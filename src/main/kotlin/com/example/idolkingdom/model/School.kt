@@ -7,15 +7,14 @@ import javax.persistence.*
 data class School(
     @Id
     @GeneratedValue
-    val id: Long? = null,
+    val id: String,
     val name: String,
-    val address: String,
     @Embedded
     val location: Location,
-    @Enumerated(EnumType.STRING)
+    @Enumerated(EnumType.ORDINAL)
     val level: Level,
     @ManyToMany(mappedBy = "schools")
-    val users: List<User>? = null
+    val users: List<User>
 ) {
     enum class Level {
         ELEMENT, MIDDLE, HIGH, UNIVERSAL
