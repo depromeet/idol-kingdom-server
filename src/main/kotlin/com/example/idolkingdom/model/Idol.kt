@@ -21,7 +21,9 @@ data class Idol(
     val graduation: String,
     val dateOfBirth: LocalDateTime,
     val hometown: String,
-    val images: List<String>
+    @OneToMany
+    @JoinColumn(name = "idol_id")
+    val images: List<Image>
 ) {
     enum class BloodType {
         A, B, AB, O;

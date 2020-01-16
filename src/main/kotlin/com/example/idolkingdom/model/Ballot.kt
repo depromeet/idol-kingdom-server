@@ -14,7 +14,7 @@ data class Ballot(
     val user: User,
     @ManyToOne
     @JoinColumn(name = "idol_group_id")
-    val target: IdolGroup,
+    val idol: IdolGroup,
     @ManyToOne
     @JoinColumn(name = "vote_id")
     val vote: Vote,
