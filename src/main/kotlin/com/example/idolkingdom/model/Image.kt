@@ -10,6 +10,6 @@ import javax.persistence.Table
 data class Image(
     @Id
     @GeneratedValue
-    val id: Int,
+    val id: Long? = null,
     val url: String
 )

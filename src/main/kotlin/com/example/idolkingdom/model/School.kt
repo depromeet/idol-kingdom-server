@@ -3,7 +3,7 @@ package com.example.idolkingdom.model
 import javax.persistence.*
 
 @Entity
-@Table(name = "school")
+@Table(name = "school", indexes = arrayOf(Index(columnList = "name")))
 data class School(
     @Id
     @GeneratedValue
@@ -14,8 +14,8 @@ data class School(
     val location: Location,
     @Enumerated(EnumType.STRING)
     val level: Level,
-    @OneToMany(mappedBy = "school", cascade = [CascadeType.ALL])
-    val users: List<User>? = null
+    @ManyToMany(mappedBy = "school", cascade = [CascadeType.ALL])
+    val users: List<User> = listOf()
 
 ) {
     enum class Level {

@@ -8,7 +8,7 @@ import javax.persistence.*
 data class Ballot(
     @Id
     @GeneratedValue
-    val id: Int,
+    val id: Long? = null,
     @ManyToOne
     @JoinColumn(name = "user_id")
     val user: User,
@@ -18,5 +18,5 @@ data class Ballot(
     @ManyToOne
     @JoinColumn(name = "vote_id")
     val vote: Vote,
-    val date: LocalDateTime
+    val date: LocalDateTime = LocalDateTime.now()
 )

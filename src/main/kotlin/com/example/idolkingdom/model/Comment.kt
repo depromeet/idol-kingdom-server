@@ -8,7 +8,7 @@ import javax.persistence.*
 data class Comment(
     @Id
     @GeneratedValue
-    val id: Int,
+    val id: Long? = null,
     @ManyToOne
     @JoinColumn(name = "user_id")
     val writer: User,
@@ -19,6 +19,6 @@ data class Comment(
     @ManyToOne
     @JoinColumn(name = "school_id")
     val school: School,
-    val createdAt: LocalDateTime,
-    val updatedAt: LocalDateTime
+    val createdAt: LocalDateTime = LocalDateTime.now(),
+    val updatedAt: LocalDateTime = LocalDateTime.now()
 )

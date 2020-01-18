@@ -7,17 +7,16 @@ import javax.persistence.*
 data class IdolGroup(
     @Id
     @GeneratedValue
-    val id: Int,
+    val id: Long? = null,
     val name: String,
-    val description: String,
     @ManyToMany
     @JoinTable(name = "idol_group_members")
-    private val members: List<Idol>,
+    val members: List<Idol> = listOf(),
     @OneToMany
     @JoinColumn(name = "idol_group_id")
-    val images: List<Image>,
-//    @ManyToMany(mappedBy = "idols")
-//    val fans : List<User>,
+    val images: List<Image> = listOf(),
+    @ManyToMany(mappedBy = "idols")
+    val fans: List<User> = listOf(),
     @OneToMany(mappedBy = "idol")
-    val ballots: List<Ballot>
+    val ballots: List<Ballot> = listOf()
 )

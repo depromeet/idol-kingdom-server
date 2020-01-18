@@ -1,5 +1,6 @@
 package com.example.idolkingdom.model
 
+import java.time.LocalDate
 import java.time.LocalDateTime
 import javax.persistence.*
 
@@ -8,24 +9,27 @@ import javax.persistence.*
 data class Idol(
     @Id
     @GeneratedValue
-    val id: Int,
+    val id: Long? = null,
     val name: String,
-    val description: String,
     @Enumerated(EnumType.ORDINAL)
     val bloodType: BloodType,
     @ManyToMany(mappedBy = "members")
-    val groups: List<IdolGroup>,
+    val groups: List<IdolGroup> = listOf(),
     @ManyToOne
     @JoinColumn(name = "entertainment_id")
-    val entertainment: Entertainment,
+    val entertainment: Entertainment?,
     val graduation: String,
-    val dateOfBirth: LocalDateTime,
+    val dateOfBirth: LocalDate?,
     val hometown: String,
     @OneToMany
     @JoinColumn(name = "idol_id")
-    val images: List<Image>
+    val images: List<Image> = listOf()
 ) {
-    enum class BloodType {
-        A, B, AB, O;
+    enum class BloodType(val value: String) {
+        A("A"), B("B"), AB("AB"), O("O"), UNKNOWN("");
+
+        companion object {
+            fun get(value: String) = BloodType.values().find { it.value == value } ?: UNKNOWN
+        }
     }
 }

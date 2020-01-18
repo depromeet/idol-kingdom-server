@@ -14,18 +14,14 @@ data class User(
     val id: Int? = null,
     val email: String,
     val password: String,
-    val name: String,
     val nickName: String,
-
-    @ManyToOne
+    @ManyToMany
     @JoinColumn(name = "school_id")
-    val school: School? = null,
-
-//    @ManyToMany
-//    @JoinTable(name = "user_idols")
-//    val idols: List<IdolGroup>? = null,
-//
-//    @OneToMany(mappedBy = "user")
-//    val ballots: List<Ballot>? = null,
-    val createdAt: LocalDateTime? = null
+    val school: List<School> = listOf(),
+    @ManyToMany
+    @JoinTable(name = "user_idols")
+    val idols: List<IdolGroup>? = listOf(),
+    @OneToMany(mappedBy = "user")
+    val ballots: List<Ballot>? = listOf(),
+    val createdAt: LocalDateTime = LocalDateTime.now()
 )

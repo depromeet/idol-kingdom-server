@@ -8,9 +8,9 @@ import javax.persistence.*
 data class Vote(
     @Id
     @GeneratedValue
-    val id: Int,
+    val id: Long? = null,
     val startDate: LocalDateTime,
     val endDate: LocalDateTime,
     @OneToMany(mappedBy = "vote")
-    val ballots: List<Ballot>
+    val ballots: List<Ballot> = listOf()
 )
