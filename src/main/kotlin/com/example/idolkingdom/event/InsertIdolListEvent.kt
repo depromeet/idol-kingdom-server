@@ -16,6 +16,7 @@ import org.springframework.boot.context.event.ApplicationReadyEvent
 import org.springframework.context.ApplicationListener
 import org.springframework.core.io.ClassPathResource
 import org.springframework.stereotype.Component
+import org.springframework.transaction.annotation.Transactional
 import java.io.FileReader
 import java.nio.file.Files
 import java.nio.file.Path
@@ -33,6 +34,7 @@ class InsertIdolListEvent(
     @Autowired private val idolRepository: IdolRepository
 ) : ApplicationListener<ApplicationReadyEvent> {
 
+    @Transactional
     override fun onApplicationEvent(event: ApplicationReadyEvent) {
         val gson = Gson()
         val file = ClassPathResource("static/idol.json").file.reader()
@@ -46,27 +48,26 @@ class InsertIdolListEvent(
                 groups.addAll(it.get("group").asString.replace("\"", "").split(","))
                 val info = it.getAsJsonArray("info")
                 var bloodType: String = ""
-                var entertainment: String = ""
+                var entertainmentName: String = ""
                 var graduation: String = ""
                 var hometown: String = ""
                 var birth: String = ""
                 info.forEach {
                     val it = it.asJsonObject
                     bloodType = it.get("혈액형")?.asString?.replace("\"", "") ?: bloodType
-                    entertainment = it.get("소속사")?.asString?.replace("\"", "") ?: entertainment
+                    entertainmentName = it.get("소속사")?.asString?.replace("\"", "") ?: entertainmentName
                     graduation = it.get("학력")?.asString?.replace("\"", "") ?: graduation
                     hometown = it.get("출신")?.asString?.replace("\"", "") ?: hometown
                     birth = it.get("출생")?.asString?.replace("\"", "") ?: birth
                     groups.addAll(it.get("그룹명")?.asString?.replace("\"", "")?.split(",") ?: listOf())
                 }
-                println(birth)
                 var idol = Idol(
                     name = name,
                     bloodType = Idol.BloodType.get(bloodType),
                     groups = listOf(),
                     entertainment = null,
                     graduation = graduation,
-                    dateOfBirth = if(birth.isNotEmpty()) LocalDate.parse(birth, dateFormatter) else null,
+                    dateOfBirth = if (birth.isNotEmpty()) LocalDate.parse(birth, dateFormatter) else null,
                     hometown = hometown,
                     images = listOf()
                 )
@@ -75,24 +76,33 @@ class InsertIdolListEvent(
                     imageRepository.save(Image(url = image)).let {
                         idol = idol.copy(images = listOf(it))
                     }
-                if (entertainment.isNotEmpty())
-                    entertainmentRepository.save(Entertainment(name = entertainment)).let {
-                        idol = idol.copy(entertainment = it)
-                    }
-                if (groups.isNotEmpty())
+                if (entertainmentName.isNotEmpty()) {
+                    val entertainment = entertainmentRepository.findByName(entertainmentName).firstOrNull()
+                    idol = idol.copy(
+                        entertainment = entertainment ?: entertainmentRepository.save(
+                            Entertainment(name = entertainmentName)
+                        )
+                    )
+                }
+                if (groups.isNotEmpty()) {
                     groups.forEach {
-                        idolGroupRepository.save(
-                            IdolGroup(name = name)
-                        ).let {
-                            idol = idol.copy(groups = listOf(it) + idol.groups)
-                        }
+                        idol = idol.copy(
+                            groups = listOf(
+                                idolGroupRepository.findByName(it).firstOrNull() ?: idolGroupRepository.save(
+                                    IdolGroup(name = it)
+                                )
+                            ) + idol.groups
+                        )
                     }
+                }
                 idol = idolRepository.save(idol)
                 idol.entertainment?.let {
-                    entertainmentRepository.save(it.copy(idols = it.idols + listOf(idol)))
+                    it.idols = it.idols + listOf(idol)
+                    entertainmentRepository.save(it)
                 }
                 idol.groups.forEach {
-                    idolGroupRepository.save(it.copy(members = it.members + listOf(idol)))
+                    it.members = it.members + listOf(idol)
+                    idolGroupRepository.save(it)
                 }
             }
         }

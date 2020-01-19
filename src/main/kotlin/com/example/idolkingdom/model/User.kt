@@ -11,17 +11,17 @@ import javax.persistence.*
 data class User(
     @Id
     @GeneratedValue
-    val id: Int? = null,
+    val id: Long? = null,
     val email: String,
     val password: String,
     val nickName: String,
     @ManyToMany
     @JoinColumn(name = "school_id")
-    val school: List<School> = listOf(),
+    var schools: List<School> = listOf(),
     @ManyToMany
     @JoinTable(name = "user_idols")
-    val idols: List<IdolGroup>? = listOf(),
+    var idols: List<IdolGroup>? = listOf(),
     @OneToMany(mappedBy = "user")
-    val ballots: List<Ballot>? = listOf(),
+    var ballots: List<Ballot>? = listOf(),
     val createdAt: LocalDateTime = LocalDateTime.now()
 )

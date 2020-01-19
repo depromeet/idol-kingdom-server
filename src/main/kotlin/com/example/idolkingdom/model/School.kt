@@ -14,8 +14,8 @@ data class School(
     val location: Location,
     @Enumerated(EnumType.STRING)
     val level: Level,
-    @ManyToMany(mappedBy = "school", cascade = [CascadeType.ALL])
-    val users: List<User> = listOf()
+    @ManyToMany(mappedBy = "schools", cascade = [CascadeType.ALL])
+    var users: List<User> = listOf()
 
 ) {
     enum class Level {

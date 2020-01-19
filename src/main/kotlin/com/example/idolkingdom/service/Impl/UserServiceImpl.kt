@@ -29,7 +29,7 @@ class UserServiceImpl(@Autowired private val userRepository: UserRepository,
                 email = dto.email,
                 nickName = dto.nickName,
                 password = passwordEncoder.encode(dto.password),
-                school = listOf(schoolRepository.getOne(dto.schoolId)),
+                schools = listOf(schoolRepository.getOne(dto.schoolId)),
                 idols = listOf(idolRepository.getOne(dto.idolId))
             )
         )

@@ -12,5 +12,5 @@ data class Vote(
     val startDate: LocalDateTime,
     val endDate: LocalDateTime,
     @OneToMany(mappedBy = "vote")
-    val ballots: List<Ballot> = listOf()
+    var ballots: List<Ballot> = listOf()
 )

@@ -8,7 +8,8 @@ data class Entertainment(
     @Id
     @GeneratedValue
     val id: Long? = null,
-    val name: String,
+    val name: String
+){
     @OneToMany(mappedBy = "entertainment")
-    val idols: List<Idol> = listOf()
-)
+    var idols: List<Idol> = listOf()
+}
