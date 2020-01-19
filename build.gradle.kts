@@ -45,7 +45,9 @@ dependencies {
     api("io.springfox:springfox-swagger-ui:2.9.2")
     api("io.springfox:springfox-swagger2:2.9.2")
 
-    implementation("com.jackson.module:jackson-module-kotlin:2.4.2-rc1")
+
+    implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.10.1")
+
 
 }
 
