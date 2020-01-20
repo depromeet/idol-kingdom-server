@@ -9,7 +9,7 @@ object BestIdolParser {
 
     fun execute() {
         val gson = Gson()
-        val file = FileReader("../assets/idol.json")
+        val file = FileReader("static/idol.json")
         val jsonArray = gson.fromJson(file, JsonArray::class.java)
         val keyMap = hashMapOf<String, HashSet<String>>()
 
