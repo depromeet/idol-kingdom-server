@@ -1,23 +1,21 @@
 package com.example.idolkingdom.util
 
-import com.google.gson.Gson
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
-import java.io.FileReader
 
 object BestIdolParser {
 
-    fun execute() {
-        val gson = Gson()
-        val file = FileReader("static/idol.json")
-        val jsonArray = gson.fromJson(file, JsonArray::class.java)
-        val keyMap = hashMapOf<String, HashSet<String>>()
-
-        searchJson(jsonArray, keyMap)
-        keyMap.forEach { t, u ->
-            println("$t:$u")
-        }
-    }
+//    fun execute() {
+//        val gson = Gson()
+//        val file = FileReader("static/idol.json")
+//        val jsonArray = gson.fromJson(file, JsonArray::class.java)
+//        val keyMap = hashMapOf<String, HashSet<String>>()
+//
+//        searchJson(jsonArray, keyMap)
+//        keyMap.forEach { t, u ->
+//            println("$t:$u")
+//        }
+//    }
 
     fun searchJson(jsonArray: JsonArray, map: HashMap<String, HashSet<String>>): Unit =
         jsonArray.forEach { searchJson(it as JsonObject, map) }
