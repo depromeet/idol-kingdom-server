@@ -1,5 +1,6 @@
 package com.example.idolkingdom.controller
 
+import com.example.idolkingdom.exception.UnauthorizedException
 import com.example.idolkingdom.exception.UserDataNotValidException
 import com.example.idolkingdom.exception.UserNotFoundException
 import org.springframework.http.HttpStatus
@@ -20,6 +21,13 @@ class RestControllerAdvice {
     @ExceptionHandler(UserDataNotValidException::class)
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
     fun handleUserDataNotValidException(ex: Exception): ResponseEntity<Any?> {
+        return ResponseEntity(ex.message, HttpStatus.UNAUTHORIZED)
+    }
+
+    
+    @ExceptionHandler(UnauthorizedException::class)
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    fun handleUnauthorizedException(ex: Exception): ResponseEntity<Any?> {
         return ResponseEntity(ex.message, HttpStatus.UNAUTHORIZED)
     }
 }
