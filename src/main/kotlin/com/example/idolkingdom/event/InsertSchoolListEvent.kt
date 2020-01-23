@@ -11,9 +11,7 @@ import org.springframework.boot.context.event.ApplicationReadyEvent
 import org.springframework.context.ApplicationListener
 import org.springframework.core.io.ClassPathResource
 import org.springframework.stereotype.Component
-import java.nio.file.Files
-import java.nio.file.Path
-import java.nio.file.Paths
+import java.io.BufferedReader
 
 
 @Component
@@ -23,10 +21,19 @@ class InsertSchoolListEvent(@Autowired private val schoolRepository: SchoolRepos
     val mapper = jacksonObjectMapper()
 
     override fun onApplicationEvent(event: ApplicationReadyEvent) {
-        val resource = ClassPathResource("static/schoolList.json")
-        val path: Path = Paths.get(resource.uri)
-        val content: String = Files.readAllLines(path)[0]
-        val genres = mapper.readValue<List<SchoolDao>>(content)
+        val stream = ClassPathResource("static/schoolList.json").inputStream
+        val reader = BufferedReader(stream.reader())
+        val content = StringBuilder()
+        try {
+            var line = reader.readLine()
+            while (line != null) {
+                content.append(line)
+                line = reader.readLine()
+            }
+        } finally {
+            reader.close()
+        }
+        val genres = mapper.readValue<List<SchoolDao>>(content.toString())
 
         genres.stream().map { s ->
             val level: School.Level
