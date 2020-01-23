@@ -1,13 +1,14 @@
 package com.example.idolkingdom.event
 
 
-import com.example.idolkingdom.model.*
+import com.example.idolkingdom.model.Entertainment
+import com.example.idolkingdom.model.Idol
+import com.example.idolkingdom.model.IdolGroup
+import com.example.idolkingdom.model.Image
 import com.example.idolkingdom.repository.EntertainmentRepository
 import com.example.idolkingdom.repository.IdolGroupRepository
 import com.example.idolkingdom.repository.IdolRepository
 import com.example.idolkingdom.repository.ImageRepository
-import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
-import com.fasterxml.jackson.module.kotlin.readValue
 import com.google.gson.Gson
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
@@ -17,12 +18,7 @@ import org.springframework.context.ApplicationListener
 import org.springframework.core.io.ClassPathResource
 import org.springframework.stereotype.Component
 import org.springframework.transaction.annotation.Transactional
-import java.io.FileReader
-import java.nio.file.Files
-import java.nio.file.Path
-import java.nio.file.Paths
 import java.time.LocalDate
-import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
 
@@ -37,7 +33,7 @@ class InsertIdolListEvent(
     @Transactional
     override fun onApplicationEvent(event: ApplicationReadyEvent) {
         val gson = Gson()
-        val file = ClassPathResource("static/idol.json").file.reader()
+        val file = ClassPathResource("static/idol.json").inputStream.reader()
         val jsonArray = gson.fromJson(file, JsonArray::class.java)
         val dateFormatter = DateTimeFormatter.ofPattern("yyyy.MM.dd")
         jsonArray.forEach {
