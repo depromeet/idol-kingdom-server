@@ -27,8 +27,9 @@ class VoteServiceImpl(@Autowired private val voteRepository: VoteRepository,
         )
     }
 
-    override fun deleteVote(voteId: Long) {
+    override fun deleteVote(voteId: Long): String {
         voteRepository.deleteById(voteId)
+        return "success"
     }
 
     override fun castBallot(dto: BallotRequestDto): Ballot {
