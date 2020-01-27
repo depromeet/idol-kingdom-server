@@ -9,6 +9,7 @@ data class Vote(
     @Id
     @GeneratedValue
     val id: Long? = null,
+    val title: String,
     val startDate: LocalDateTime,
     val endDate: LocalDateTime,
     @OneToMany(mappedBy = "vote")
