@@ -2,9 +2,11 @@ package com.example.idolkingdom.repository
 
 import com.example.idolkingdom.model.School
 import org.springframework.data.jpa.repository.JpaRepository
+import org.springframework.data.jpa.repository.Query
 
 
 interface SchoolRepository : JpaRepository<School, Long> {
     fun findByName(name: String): List<School>
+    @Query("SELECT s FROM School s WHERE s.name LIKE %?1%")
     fun findByNameLike(name: String): List<School>
 }
