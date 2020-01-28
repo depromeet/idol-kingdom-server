@@ -1,6 +1,6 @@
 package com.example.idolkingdom.util
 
-import com.example.idolkingdom.event.SchoolDao
+import com.example.idolkingdom.dao.SchoolDao
 import com.example.idolkingdom.model.Location
 import com.example.idolkingdom.model.School
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
