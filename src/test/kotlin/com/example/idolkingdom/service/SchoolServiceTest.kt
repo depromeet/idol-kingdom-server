@@ -1,5 +1,6 @@
 package com.example.idolkingdom.service
 
+import com.example.idolkingdom.dto.LocationDto
 import com.example.idolkingdom.service.impl.SchoolServiceImpl
 import com.example.idolkingdom.util.Resource
 import com.example.idolkingdom.util.SchoolJsonParser
@@ -45,7 +46,28 @@ class SchoolServiceTest {
     fun search() {
         Assert.assertEquals(
             schools.filter { it.name.contains("풍") }.count().toInt(),
-            servcie.search("풍").size
+            servcie.search("풍", null).size
+        )
+    }
+
+    @Test
+    fun searchLocation() {
+        val startLocation = LocationDto(37.582484f, 126.954486f)
+        val endLocation = LocationDto(37.569083f, 126.984183f)
+        val expected = schools.filter {
+            it.location.latitude < startLocation.latitude &&
+                endLocation.latitude < it.location.latitude &&
+                it.location.longitude < endLocation.longitude &&
+                startLocation.longitude < it.location.longitude
+        }
+        val target = servcie.search(
+            startLocation,
+            endLocation,
+            2
+        )
+        Assert.assertEquals(
+            expected.count().toInt(),
+            target.size
         )
     }
 }
