@@ -2,8 +2,8 @@ package com.example.idolkingdom.controller
 
 import com.example.idolkingdom.dto.BallotRequestDto
 import com.example.idolkingdom.dto.VoteRequestDto
+import com.example.idolkingdom.dto.VoteResponseDto
 import com.example.idolkingdom.model.Ballot
-import com.example.idolkingdom.model.Vote
 import com.example.idolkingdom.service.VoteService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
@@ -14,8 +14,12 @@ import org.springframework.web.bind.annotation.*
 @RequestMapping("/api")
 class VoteController(@Autowired private val voteService: VoteService) {
 
+    @GetMapping("/vote")
+    fun getVoteList(): ResponseEntity<List<VoteResponseDto>> =
+        ResponseEntity.status(HttpStatus.OK).body(voteService.getVoteList());
+
     @PostMapping("/vote")
-    fun createVote(@RequestBody voteRequestDto: VoteRequestDto): ResponseEntity<Vote> =
+    fun createVote(@RequestBody voteRequestDto: VoteRequestDto): ResponseEntity<VoteResponseDto> =
         ResponseEntity.status(HttpStatus.CREATED).body(voteService.createVote(voteRequestDto))
 
     @DeleteMapping("/vote")

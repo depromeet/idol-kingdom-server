@@ -2,6 +2,7 @@ package com.example.idolkingdom.service.Impl
 
 import com.example.idolkingdom.dto.BallotRequestDto
 import com.example.idolkingdom.dto.VoteRequestDto
+import com.example.idolkingdom.dto.VoteResponseDto
 import com.example.idolkingdom.model.Ballot
 import com.example.idolkingdom.model.Vote
 import com.example.idolkingdom.repository.BallotRepository
@@ -17,15 +18,20 @@ class VoteServiceImpl(@Autowired private val voteRepository: VoteRepository,
                       @Autowired private val ballotRepository: BallotRepository,
                       @Autowired private val idolGroupRepository: IdolGroupRepository,
                       @Autowired private val userRepository: UserRepository) : VoteService {
-    override fun createVote(dto: VoteRequestDto): Vote {
-        return voteRepository.save(
-            Vote(
-                title = dto.title,
-                startDate = dto.startDate,
-                endDate = dto.endDate
+
+    override fun createVote(dto: VoteRequestDto): VoteResponseDto =
+        VoteResponseDto.of(
+            voteRepository.save(
+                Vote(
+                    title = dto.title,
+                    startDate = dto.startDate,
+                    endDate = dto.endDate
+                )
             )
         )
-    }
+
+    override fun getVoteList(): List<VoteResponseDto> =
+        voteRepository.findAll().map { vote -> VoteResponseDto.of(vote) }
 
     override fun deleteVote(voteId: Long): String {
         voteRepository.deleteById(voteId)
