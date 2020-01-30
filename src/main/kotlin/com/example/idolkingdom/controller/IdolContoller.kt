@@ -1,5 +1,6 @@
 package com.example.idolkingdom.controller;
 
+import com.example.idolkingdom.dto.IdolDto
 import com.example.idolkingdom.model.IdolGroup
 import com.example.idolkingdom.model.School
 import com.example.idolkingdom.service.IdolService
@@ -25,6 +26,6 @@ class IdolContoller(@Autowired private val idolService: IdolService) {
         )
 
     @GetMapping("/idol/search")
-    fun serach(@RequestParam("query") query: String): ResponseEntity<List<IdolGroup>> = ResponseEntity.status(HttpStatus.OK)
+    fun serach(@RequestParam("query") query: String): ResponseEntity<List<IdolDto>> = ResponseEntity.status(HttpStatus.OK)
         .body(idolService.search(query))
 }
