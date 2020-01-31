@@ -1,5 +1,7 @@
 package com.example.idolkingdom.controller;
 
+
+import com.example.idolkingdom.dto.SchoolResponseDto
 import com.example.idolkingdom.dto.LocationDto
 import com.example.idolkingdom.exception.WrongParameterAcceptedException
 import com.example.idolkingdom.model.School
@@ -16,13 +18,18 @@ import org.springframework.web.bind.annotation.RestController
 @RequestMapping("/api")
 class SchoolContoller(@Autowired private val schoolService: SchoolService) {
 
-    @GetMapping("/school")
+    @GetMapping("/school/list")
     fun get(@RequestParam("name") name: String?): ResponseEntity<List<School>> = ResponseEntity.status(HttpStatus.OK)
         .body(
             if (name == null)
                 schoolService.getAll()
             else schoolService.get(name)
         )
+
+
+    @GetMapping("/school")
+    fun get(@RequestParam schoolId: Long): ResponseEntity<SchoolResponseDto> =
+        ResponseEntity.status(HttpStatus.OK).body(schoolService.get(schoolId))
 
     @GetMapping("/school/search")
     fun serach(

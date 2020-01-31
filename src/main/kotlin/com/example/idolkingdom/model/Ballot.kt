@@ -1,10 +1,13 @@
 package com.example.idolkingdom.model
 
+import org.springframework.data.annotation.CreatedDate
+import org.springframework.data.jpa.domain.support.AuditingEntityListener
 import java.time.LocalDateTime
 import javax.persistence.*
 
 @Entity
 @Table(name = "ballot")
+@EntityListeners(AuditingEntityListener::class)
 data class Ballot(
     @Id
     @GeneratedValue
@@ -18,5 +21,6 @@ data class Ballot(
     @ManyToOne
     @JoinColumn(name = "vote_id")
     val vote: Vote,
+    @CreatedDate
     val date: LocalDateTime = LocalDateTime.now()
 )

@@ -1,10 +1,9 @@
 package com.example.idolkingdom.controller;
 
+import com.example.idolkingdom.dto.IdolGroupResponseDto
 import com.example.idolkingdom.dto.IdolDto
 import com.example.idolkingdom.model.IdolGroup
-import com.example.idolkingdom.model.School
 import com.example.idolkingdom.service.IdolService
-import com.example.idolkingdom.service.SchoolService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -17,13 +16,17 @@ import org.springframework.web.bind.annotation.RestController
 @RequestMapping("/api")
 class IdolContoller(@Autowired private val idolService: IdolService) {
 
-    @GetMapping("/idol")
+    @GetMapping("/idol/list")
     fun get(@RequestParam("name") name: String?): ResponseEntity<List<IdolGroup>> = ResponseEntity.status(HttpStatus.OK)
         .body(
             if (name == null)
                 idolService.getAll()
             else idolService.get(name)
         )
+
+    @GetMapping("/idol")
+    fun get(@RequestParam idolId: Long): ResponseEntity<IdolGroupResponseDto> =
+        ResponseEntity.status(HttpStatus.OK).body(idolService.get(idolId))
 
     @GetMapping("/idol/search")
     fun serach(@RequestParam("query") query: String): ResponseEntity<List<IdolDto>> = ResponseEntity.status(HttpStatus.OK)

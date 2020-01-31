@@ -1,6 +1,6 @@
 package com.example.idolkingdom.exception
 
-class UserNotFoundException : RuntimeException {
+class DataNotFoundException : RuntimeException {
 
     constructor(message: String) : super(message)
 

@@ -6,11 +6,9 @@ import com.auth0.jwt.algorithms.Algorithm
 import com.auth0.jwt.interfaces.DecodedJWT
 import com.auth0.jwt.interfaces.Verification
 import com.example.idolkingdom.model.User
-import org.springframework.stereotype.Component
 
 
-@Component
-class JwtTokenUtil() {
+class JwtTokenUtil {
 
     private val HEADER_PREFIX = "Bearer "
 

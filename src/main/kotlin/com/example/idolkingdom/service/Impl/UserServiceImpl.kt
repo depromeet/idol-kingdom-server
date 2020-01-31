@@ -1,11 +1,8 @@
 package com.example.idolkingdom.service.impl
 
-import com.example.idolkingdom.dto.EmailDto
-import com.example.idolkingdom.dto.LoginRequestDto
-import com.example.idolkingdom.dto.LoginResponseDto
-import com.example.idolkingdom.dto.UserDto
+import com.example.idolkingdom.dto.*
+import com.example.idolkingdom.exception.DataNotFoundException
 import com.example.idolkingdom.exception.UserDataNotValidException
-import com.example.idolkingdom.exception.UserNotFoundException
 import com.example.idolkingdom.model.User
 import com.example.idolkingdom.repository.IdolGroupRepository
 import com.example.idolkingdom.repository.SchoolRepository
@@ -47,7 +44,19 @@ class UserServiceImpl(@Autowired private val userRepository: UserRepository,
         return LoginResponseDto(token)
     }
 
-    private fun validCreateUser(userDto: UserDto) {
+    override fun getUser(userId: Long): UserResponseDto {
+        return userRepository.findById(userId).map { user ->
+            UserResponseDto(
+                email = user.email,
+                nickName = user.nickName,
+                schoolList = user.schools.map { s -> s.id },
+                idolIdList = user.idols.map { idol -> idol.id },
+                ballotList = user.ballots.map { b -> b.id }
+            )
+        }.get()
+    }
+
+    fun validCreateUser(userDto: UserDto) {
         val user: User? = userRepository.findByEmail(userDto.email)
         if (user != null) {
             throw UserDataNotValidException("already user exist")
@@ -56,7 +65,7 @@ class UserServiceImpl(@Autowired private val userRepository: UserRepository,
 
     private fun validLogin(loginRequestDto: LoginRequestDto): User {
         val user: User = userRepository.findByEmail(loginRequestDto.email)
-            ?: throw UserNotFoundException("..")
+            ?: throw DataNotFoundException("..")
         if (isCorrectPassword(loginRequestDto.password, user)) {
             throw UserDataNotValidException("")
         }
