@@ -23,9 +23,9 @@ data class User(
     var schools: List<School> = listOf(),
     @ManyToMany
     @JoinTable(name = "user_idols")
-    var idols: List<IdolGroup>? = listOf(),
+    var idols: List<IdolGroup> = listOf(),
     @OneToMany(mappedBy = "user")
-    var ballots: List<Ballot>? = listOf(),
+    var ballots: List<Ballot> = listOf(),
     @CreatedDate
     val createdAt: LocalDateTime = LocalDateTime.now()
 )

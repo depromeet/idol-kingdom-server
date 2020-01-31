@@ -1,5 +1,6 @@
 package com.example.idolkingdom.service.impl
 
+import com.example.idolkingdom.dto.SchoolResponseDto
 import com.example.idolkingdom.model.School
 import com.example.idolkingdom.repository.SchoolRepository
 import com.example.idolkingdom.service.SchoolService
@@ -12,6 +13,9 @@ class SchoolServiceImpl(@Autowired private val schoolRepository: SchoolRepositor
     override fun getAll(): List<School> = schoolRepository.findAll()
 
     override fun get(name: String): List<School> = schoolRepository.findByName(name)
+
+    override fun get(schoolId: Long): SchoolResponseDto =
+        SchoolResponseDto.of(schoolRepository.findById(schoolId).get())
 
     override fun search(query: String): List<School> = schoolRepository.findByNameLike(query)
 }

@@ -1,5 +1,6 @@
 package com.example.idolkingdom.controller;
 
+import com.example.idolkingdom.dto.SchoolResponseDto
 import com.example.idolkingdom.model.School
 import com.example.idolkingdom.service.SchoolService
 import org.springframework.beans.factory.annotation.Autowired
@@ -14,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController
 @RequestMapping("/api")
 class SchoolContoller(@Autowired private val schoolService: SchoolService) {
 
-    @GetMapping("/school")
+    @GetMapping("/school/list")
     fun get(@RequestParam("name") name: String?): ResponseEntity<List<School>> = ResponseEntity.status(HttpStatus.OK)
         .body(
             if (name == null)
@@ -25,4 +26,8 @@ class SchoolContoller(@Autowired private val schoolService: SchoolService) {
     @GetMapping("/school/search")
     fun serach(@RequestParam("query") query: String): ResponseEntity<List<School>> = ResponseEntity.status(HttpStatus.OK)
         .body(schoolService.search(query))
+
+    @GetMapping("/school")
+    fun get(@RequestParam schoolId: Long): ResponseEntity<SchoolResponseDto> =
+        ResponseEntity.status(HttpStatus.OK).body(schoolService.get(schoolId))
 }

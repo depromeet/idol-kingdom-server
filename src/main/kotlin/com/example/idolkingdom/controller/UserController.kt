@@ -1,9 +1,6 @@
 package com.example.idolkingdom.controller;
 
-import com.example.idolkingdom.dto.EmailDto
-import com.example.idolkingdom.dto.LoginRequestDto
-import com.example.idolkingdom.dto.LoginResponseDto
-import com.example.idolkingdom.dto.UserDto
+import com.example.idolkingdom.dto.*
 import com.example.idolkingdom.service.UserService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
@@ -28,4 +25,8 @@ class UserController(@Autowired private val userService: UserService) {
     @PostMapping("/users")
     fun createUser(@RequestBody userDto: UserDto): ResponseEntity<LoginResponseDto> =
         ResponseEntity.status(HttpStatus.CREATED).body(userService.createUser(userDto))
+
+    @GetMapping("/users")
+    fun getUser(@RequestParam userId: Long): ResponseEntity<UserResponseDto> =
+        ResponseEntity.status(HttpStatus.OK).body(userService.getUser(userId))
 }
