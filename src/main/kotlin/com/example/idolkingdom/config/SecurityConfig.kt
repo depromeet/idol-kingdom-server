@@ -2,7 +2,6 @@ package com.example.idolkingdom.config
 
 import com.example.idolkingdom.interceptor.AuthInterceptor
 import com.example.idolkingdom.service.impl.JwtTokenUtil
-import lombok.AllArgsConstructor
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.security.config.annotation.web.builders.WebSecurity
@@ -16,7 +15,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer
 
 @Configuration
 @EnableWebSecurity
-@AllArgsConstructor
 class SecurityConfig : WebSecurityConfigurerAdapter(), WebMvcConfigurer {
 
     @Bean

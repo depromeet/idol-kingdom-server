@@ -1,7 +1,7 @@
 package com.example.idolkingdom.service.impl
 
-import com.example.idolkingdom.dto.SchoolResponseDto
 import com.example.idolkingdom.dto.LocationDto
+import com.example.idolkingdom.dto.SchoolResponseDto
 import com.example.idolkingdom.model.School
 import com.example.idolkingdom.repository.SchoolRepository
 import com.example.idolkingdom.service.SchoolService

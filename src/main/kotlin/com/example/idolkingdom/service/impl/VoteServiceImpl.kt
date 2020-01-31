@@ -1,4 +1,4 @@
-package com.example.idolkingdom.service.Impl
+package com.example.idolkingdom.service.impl
 
 import com.example.idolkingdom.dto.BallotRequestDto
 import com.example.idolkingdom.dto.VoteRequestDto
