@@ -1,6 +1,7 @@
 package com.example.idolkingdom.controller;
 
 import com.example.idolkingdom.dto.IdolGroupResponseDto
+import com.example.idolkingdom.dto.IdolDto
 import com.example.idolkingdom.model.IdolGroup
 import com.example.idolkingdom.service.IdolService
 import org.springframework.beans.factory.annotation.Autowired
@@ -28,6 +29,6 @@ class IdolContoller(@Autowired private val idolService: IdolService) {
         ResponseEntity.status(HttpStatus.OK).body(idolService.get(idolId))
 
     @GetMapping("/idol/search")
-    fun serach(@RequestParam("query") query: String): ResponseEntity<List<IdolGroup>> = ResponseEntity.status(HttpStatus.OK)
+    fun serach(@RequestParam("query") query: String): ResponseEntity<List<IdolDto>> = ResponseEntity.status(HttpStatus.OK)
         .body(idolService.search(query))
 }
