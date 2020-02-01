@@ -1,6 +1,7 @@
 package com.example.idolkingdom.service.impl
 
 import com.example.idolkingdom.dto.BallotRequestDto
+import com.example.idolkingdom.dto.BallotResponseDto
 import com.example.idolkingdom.dto.VoteRequestDto
 import com.example.idolkingdom.dto.VoteResponseDto
 import com.example.idolkingdom.model.Ballot
@@ -33,22 +34,28 @@ class VoteServiceImpl(@Autowired private val voteRepository: VoteRepository,
     override fun getVoteList(): List<VoteResponseDto> =
         voteRepository.findAll().map { vote -> VoteResponseDto.of(vote) }
 
+    override fun get(voteId: Long): VoteResponseDto = VoteResponseDto.of(voteRepository.getOne(voteId))
+
     override fun deleteVote(voteId: Long): String {
         voteRepository.deleteById(voteId)
         return "success"
     }
 
-    override fun castBallot(dto: BallotRequestDto): Ballot {
+    override fun castBallot(dto: BallotRequestDto): BallotResponseDto {
         val user = userRepository.findById(dto.userId).get()
         val idol = idolGroupRepository.findById(dto.idolId).get()
         val vote = voteRepository.findById(dto.voteId).get()
 
-        return ballotRepository.save(
-            Ballot(
-                user = user,
-                idol = idol,
-                vote = vote)
+        return BallotResponseDto.of(
+            ballotRepository.save(
+                Ballot(
+                    user = user,
+                    idol = idol,
+                    vote = vote)
+            )
         )
-
     }
+
+    override fun getBallots(ballotIds: List<Long>): List<BallotResponseDto> = ballotRepository.findAllById(ballotIds)
+        .map { BallotResponseDto.of(it) }
 }

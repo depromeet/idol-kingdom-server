@@ -56,6 +56,7 @@ class UserServiceImpl(@Autowired private val userRepository: UserRepository,
     override fun getUser(userId: Long): UserResponseDto {
         return userRepository.findById(userId).map { user ->
             UserResponseDto(
+                id = user.id,
                 email = user.email,
                 nickName = user.nickName,
                 schoolList = user.schools.map { s -> s.id },
