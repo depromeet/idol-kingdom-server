@@ -22,6 +22,7 @@ configurations {
     }
 }
 
+extra["springCloudVersion"] = "Greenwich.SR3"
 
 repositories {
     mavenCentral()
@@ -50,8 +51,15 @@ dependencies {
 
     // s3
     implementation("software.amazon.awssdk:s3:2.9.14")
+    implementation("org.springframework.cloud:spring-cloud-starter-aws")
 
 
+}
+
+dependencyManagement {
+    imports {
+        mavenBom("org.springframework.cloud:spring-cloud-dependencies:${property("springCloudVersion")}")
+    }
 }
 
 tasks.withType<Test> {
