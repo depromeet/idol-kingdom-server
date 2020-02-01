@@ -29,4 +29,8 @@ class UserController(@Autowired private val userService: UserService) {
     @GetMapping("/users")
     fun getUser(@RequestParam userId: Long): ResponseEntity<UserResponseDto> =
         ResponseEntity.status(HttpStatus.OK).body(userService.getUser(userId))
+
+    @GetMapping("/me")
+    fun getMe(@RequestAttribute("id") id: Long): ResponseEntity<UserResponseDto> =
+        ResponseEntity.status(HttpStatus.CREATED).body(userService.getUser(id))
 }

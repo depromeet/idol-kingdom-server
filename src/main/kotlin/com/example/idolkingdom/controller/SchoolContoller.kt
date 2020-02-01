@@ -18,15 +18,6 @@ import org.springframework.web.bind.annotation.RestController
 @RequestMapping("/api")
 class SchoolContoller(@Autowired private val schoolService: SchoolService) {
 
-    @GetMapping("/school/list")
-    fun get(@RequestParam("name") name: String?): ResponseEntity<List<School>> = ResponseEntity.status(HttpStatus.OK)
-        .body(
-            if (name == null)
-                schoolService.getAll()
-            else schoolService.get(name)
-        )
-
-
     @GetMapping("/school")
     fun get(@RequestParam schoolId: Long): ResponseEntity<SchoolResponseDto> =
         ResponseEntity.status(HttpStatus.OK).body(schoolService.get(schoolId))
@@ -34,6 +25,16 @@ class SchoolContoller(@Autowired private val schoolService: SchoolService) {
     @GetMapping("/school/search")
     fun serach(
         @RequestParam("query") query: String?,
+        @RequestParam("size") size: Int?
+    ): ResponseEntity<List<School>> = ResponseEntity.status(HttpStatus.OK)
+        .body(
+            if (query != null)
+                schoolService.search(query, size)
+            else throw WrongParameterAcceptedException("query or (x, y) must not be null")
+        )
+
+    @GetMapping("/school/nearby")
+    fun nearby(
         @RequestParam("start_x") startX: Float?,
         @RequestParam("start_y") startY: Float?,
         @RequestParam("end_x") endX: Float?,
@@ -41,9 +42,7 @@ class SchoolContoller(@Autowired private val schoolService: SchoolService) {
         @RequestParam("size") size: Int?
     ): ResponseEntity<List<School>> = ResponseEntity.status(HttpStatus.OK)
         .body(
-            if (query != null)
-                schoolService.search(query, size)
-            else if (startX != null && startY != null && endX != null && endY != null)
+            if (startX != null && startY != null && endX != null && endY != null)
                 schoolService.search(LocationDto(startX, startY), LocationDto(endX, endY), size)
             else throw WrongParameterAcceptedException("query or (x, y) must not be null")
         )

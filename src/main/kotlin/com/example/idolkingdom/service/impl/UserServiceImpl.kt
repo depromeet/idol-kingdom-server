@@ -11,6 +11,7 @@ import com.example.idolkingdom.service.UserService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
+import java.lang.IllegalArgumentException
 
 @Service
 class UserServiceImpl(@Autowired private val userRepository: UserRepository,
@@ -23,11 +24,19 @@ class UserServiceImpl(@Autowired private val userRepository: UserRepository,
         validCreateUser(dto)
         val user = userRepository.save(
             User(
-                email = dto.email,
-                nickName = dto.nickName,
+                email = dto.email ?: throw IllegalArgumentException("email must not be null"),
+                nickName = dto.nickName ?: throw IllegalArgumentException("nickname must not be null"),
                 password = passwordEncoder.encode(dto.password),
-                schools = listOf(schoolRepository.getOne(dto.schoolId)),
-                idols = listOf(idolRepository.getOne(dto.idolId))
+                schools = listOf(
+                    schoolRepository.getOne(
+                        dto.schools?.firstOrNull() ?: throw IllegalArgumentException("schools must not be empty")
+                    )
+                ),
+                idols = listOf(
+                    idolRepository.getOne(
+                        dto.idols?.firstOrNull() ?: throw IllegalArgumentException("idols must not be empty")
+                    )
+                )
             )
         )
         val token = jwtTokenUtil.generateToken(user)
@@ -57,7 +66,9 @@ class UserServiceImpl(@Autowired private val userRepository: UserRepository,
     }
 
     fun validCreateUser(userDto: UserDto) {
-        val user: User? = userRepository.findByEmail(userDto.email)
+        val user: User? = userRepository.findByEmail(
+            userDto.email ?: throw IllegalArgumentException("email must not be null")
+        )
         if (user != null) {
             throw UserDataNotValidException("already user exist")
         }
