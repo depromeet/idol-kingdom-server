@@ -23,6 +23,10 @@ class VoteController(@Autowired private val voteService: VoteService) {
     fun getVoteList(@RequestBody voteId: Long): ResponseEntity<VoteResponseDto> =
         ResponseEntity.status(HttpStatus.OK).body(voteService.get(voteId))
 
+    @GetMapping("/vote/current")
+    fun getCurrentVote(): ResponseEntity<VoteResponseDto> =
+        ResponseEntity.status(HttpStatus.OK).body(voteService.getVoteList().last())
+
     @GetMapping("/vote/ballots")
     fun getBallotList(@RequestBody ballotIds: List<Long>): ResponseEntity<List<BallotResponseDto>> =
         ResponseEntity.status(HttpStatus.OK).body(voteService.getBallots(ballotIds))
@@ -38,5 +42,4 @@ class VoteController(@Autowired private val voteService: VoteService) {
     @PostMapping("/ballot")
     fun createBallot(@RequestBody ballotRequestDto: BallotRequestDto): ResponseEntity<BallotResponseDto> =
         ResponseEntity.status(HttpStatus.CREATED).body(voteService.castBallot(ballotRequestDto))
-
 }
