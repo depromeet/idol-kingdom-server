@@ -53,6 +53,6 @@ object IdolJsonParser {
                     groups = groups.toList()
                 )
             }
-        }
+        }.filter { it.name.contains("..".toRegex()).not() }
     }
 }
