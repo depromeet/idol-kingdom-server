@@ -2,6 +2,7 @@ package com.example.idolkingdom.service.impl
 
 import com.example.idolkingdom.dto.LocationDto
 import com.example.idolkingdom.dto.SchoolResponseDto
+import com.example.idolkingdom.exception.DataNotFoundException
 import com.example.idolkingdom.repository.SchoolRepository
 import com.example.idolkingdom.repository.VoteRepository
 import com.example.idolkingdom.service.SchoolService
@@ -23,7 +24,7 @@ class SchoolServiceImpl(
     override fun get(schoolIds: List<Long>): List<SchoolResponseDto> = schoolRepository.findAllById(schoolIds).map { SchoolResponseDto.of(it) }
 
     override fun search(query: String, size: Int?): List<SchoolResponseDto> {
-        val lastVote = voteRepository.findAll().last()
+        val lastVote = voteRepository.findAll().lastOrNull() ?: throw DataNotFoundException("vote not found")
         return schoolRepository.findByNameLike(query).run {
             size?.let { take(it) } ?: this
         }.map {
@@ -34,7 +35,7 @@ class SchoolServiceImpl(
     }
 
     override fun search(startLocation: LocationDto, endLocation: LocationDto, size: Int?): List<SchoolResponseDto> {
-        val lastVote = voteRepository.findAll().last()
+        val lastVote = voteRepository.findAll().lastOrNull() ?: throw DataNotFoundException("vote not found")
         val startX = Math.min(startLocation.latitude, endLocation.latitude)
         val startY = Math.min(startLocation.longitude, endLocation.longitude)
         val endX = Math.max(startLocation.latitude, endLocation.latitude)
