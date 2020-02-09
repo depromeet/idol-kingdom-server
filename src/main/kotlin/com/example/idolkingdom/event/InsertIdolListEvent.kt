@@ -9,6 +9,7 @@ import com.example.idolkingdom.repository.EntertainmentRepository
 import com.example.idolkingdom.repository.IdolGroupRepository
 import com.example.idolkingdom.repository.IdolRepository
 import com.example.idolkingdom.repository.ImageRepository
+import com.example.idolkingdom.util.IdolImage
 import com.example.idolkingdom.util.IdolJsonParser
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.context.event.ApplicationReadyEvent
@@ -18,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
+const val S3_PATH = "https://s3.ap-northeast-2.amazonaws.com/idol.kingdom/"
 
 @Component
 class InsertIdolListEvent(
@@ -30,7 +32,7 @@ class InsertIdolListEvent(
     @Transactional
     override fun onApplicationEvent(event: ApplicationReadyEvent) {
         val dateFormatter = DateTimeFormatter.ofPattern("yyyy.MM.dd")
-        IdolJsonParser.parse("static/idol.json").forEach {dao ->
+        IdolJsonParser.parse("static/idol.json").forEach { dao ->
             var idol = Idol(
                 name = dao.name,
                 bloodType = Idol.BloodType.get(dao.info.bloodType),
@@ -55,10 +57,21 @@ class InsertIdolListEvent(
             }
             if (dao.groups.isNotEmpty()) {
                 dao.groups.forEach {
+                    val idolImageName = IdolImage.getIdolGroupByName(it)
+                    val images: List<Image> = if (idolImageName != null) listOf(
+                        Image(url = S3_PATH + idolImageName + "/" + "marker.png"),
+                        Image(url = S3_PATH + idolImageName + "/" + "circle.png"),
+                        Image(url = S3_PATH + idolImageName + "/" + "card.png")
+                    ) else listOf()
+
                     idol = idol.copy(
+
                         groups = listOf(
                             idolGroupRepository.findByName(it).firstOrNull() ?: idolGroupRepository.save(
-                                IdolGroup(name = it)
+                                IdolGroup(
+                                    name = it,
+                                    images = images.map { image -> imageRepository.save(image) }
+                                )
                             )
                         ) + idol.groups
                     )
