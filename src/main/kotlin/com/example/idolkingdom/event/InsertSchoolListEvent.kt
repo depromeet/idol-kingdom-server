@@ -16,6 +16,6 @@ class InsertSchoolListEvent(@Autowired private val schoolRepository: SchoolRepos
 
     override fun onApplicationEvent(event: ApplicationReadyEvent) {
         SchoolJsonParser.parse(Resource.PATH_SCHOOL_JSON)
-            .forEach { s -> schoolRepository.save(s) }
+            .forEach { s -> schoolRepository.findByName(s.name).firstOrNull() ?: schoolRepository.save(s) }
     }
 }
