@@ -2,14 +2,16 @@ package com.example.idolkingdom.dto
 
 import com.example.idolkingdom.model.Location
 import com.example.idolkingdom.model.School
+import com.example.idolkingdom.model.Vote
 
-class SchoolResponseDto(
+data class SchoolResponseDto(
     val id: Long?,
     val name: String,
     val address: String,
     val location: Location,
     val level: School.Level,
-    var users: List<Long?>
+    var users: List<Long?>,
+    var ballots: List<Long?> = emptyList()
 ) {
     companion object {
         fun of(school: School): SchoolResponseDto {

@@ -7,14 +7,16 @@ class VoteResponseDto(
     val id: Long?,
     val title: String,
     val startDate: LocalDateTime,
-    val endDate: LocalDateTime
+    val endDate: LocalDateTime,
+    val ballotIds: List<Long?>
 ) {
     companion object {
         fun of(vote: Vote): VoteResponseDto = VoteResponseDto(
             id = vote.id,
             title = vote.title,
             startDate = vote.startDate,
-            endDate = vote.endDate
+            endDate = vote.endDate,
+            ballotIds = vote.ballots.map { it.id }
         )
 
     }

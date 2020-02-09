@@ -56,9 +56,10 @@ class UserServiceImpl(@Autowired private val userRepository: UserRepository,
     override fun getUser(userId: Long): UserResponseDto {
         return userRepository.findById(userId).map { user ->
             UserResponseDto(
+                id = user.id,
                 email = user.email,
                 nickName = user.nickName,
-                schoolList = user.schools.map { s -> s.id },
+                schoolList = user.schools.sortedByDescending { it.level.ordinal }.map { s -> s.id },
                 idolIdList = user.idols.map { idol -> idol.id },
                 ballotList = user.ballots.map { b -> b.id }
             )
@@ -77,7 +78,7 @@ class UserServiceImpl(@Autowired private val userRepository: UserRepository,
     private fun validLogin(loginRequestDto: LoginRequestDto): User {
         val user: User = userRepository.findByEmail(loginRequestDto.email)
             ?: throw DataNotFoundException("..")
-        if (isCorrectPassword(loginRequestDto.password, user)) {
+        if (isCorrectPassword(loginRequestDto.password, user).not()) {
             throw UserDataNotValidException("")
         }
         return user

@@ -38,6 +38,6 @@ class SecurityConfig : WebSecurityConfigurerAdapter(), WebMvcConfigurer {
             .excludePathPatterns("/api/school/**")
             .excludePathPatterns("/api/idol/**")
             .excludePathPatterns("/api/hello")
-            .excludePathPatterns("/api/**")
+            .excludePathPatterns("/api/users/validation")
     }
 }

@@ -16,11 +16,11 @@ class UserController(@Autowired private val userService: UserService) {
         ResponseEntity.status(HttpStatus.ACCEPTED).body(userService.login(loginRequestDto))
 
     @PostMapping("/users/validation")
-    fun validateEmail(@RequestBody email: EmailDto): ResponseEntity<String> = ResponseEntity(
+    fun validateEmail(@RequestBody email: EmailDto): ResponseEntity<EmailDto> = ResponseEntity.status(
         if (userService.validateEmail(email))
             HttpStatus.OK
         else HttpStatus.FORBIDDEN
-    )
+    ).body(email)
 
     @PostMapping("/users")
     fun createUser(@RequestBody userDto: UserDto): ResponseEntity<LoginResponseDto> =
