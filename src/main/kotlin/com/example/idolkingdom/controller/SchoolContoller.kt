@@ -1,21 +1,24 @@
 package com.example.idolkingdom.controller;
 
 
-import com.example.idolkingdom.dto.SchoolResponseDto
 import com.example.idolkingdom.dto.LocationDto
+import com.example.idolkingdom.dto.SchoolResponseDto
 import com.example.idolkingdom.exception.WrongParameterAcceptedException
 import com.example.idolkingdom.service.SchoolService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
-import org.springframework.web.bind.annotation.*
+import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RequestParam
+import org.springframework.web.bind.annotation.RestController
 
 @RestController
 @RequestMapping("/api")
 class SchoolContoller(@Autowired private val schoolService: SchoolService) {
 
     @GetMapping("/school")
-    fun get(@RequestBody schoolIds: List<Long>): ResponseEntity<List<SchoolResponseDto>> =
+    fun get(@RequestParam(value = "schoolIds", required = true) schoolIds: List<Long>): ResponseEntity<List<SchoolResponseDto>> =
         ResponseEntity.status(HttpStatus.OK).body(schoolService.get(schoolIds))
 
     @GetMapping("/school/search")
