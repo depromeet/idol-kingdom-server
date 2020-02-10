@@ -65,5 +65,6 @@ class SchoolServiceImpl(
         return voteRepository.findAll().last().ballots.filter { students.contains(it.user.id) }
             .groupBy { it.idol }
             .map { it.key.toDto() to it.value.mapNotNull { it.id } }
+            .sortedByDescending { it.second.size }
     }
 }
