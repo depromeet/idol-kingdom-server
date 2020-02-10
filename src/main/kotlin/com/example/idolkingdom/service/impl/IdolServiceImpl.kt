@@ -2,7 +2,7 @@ package com.example.idolkingdom.service.impl
 
 import com.example.idolkingdom.dto.IdolDto
 import com.example.idolkingdom.dto.IdolGroupResponseDto
-import com.example.idolkingdom.dto.toEntity
+import com.example.idolkingdom.dto.toDto
 import com.example.idolkingdom.model.IdolGroup
 import com.example.idolkingdom.repository.IdolGroupRepository
 import com.example.idolkingdom.service.IdolService
@@ -19,8 +19,5 @@ class IdolServiceImpl(@Autowired private val idolRepository: IdolGroupRepository
     override fun get(idolGroup: Long): IdolGroupResponseDto =
         IdolGroupResponseDto.of(idolRepository.findById(idolGroup).get())
 
-    override fun search(query: String): List<IdolDto> = idolRepository.findByNameLike(query).map {
-        it.toEntity()
-    }
-
+    override fun search(query: String): List<IdolDto> = idolRepository.findByNameLike(query).map { it.toDto() }
 }

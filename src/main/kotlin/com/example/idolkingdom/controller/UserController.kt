@@ -33,4 +33,8 @@ class UserController(@Autowired private val userService: UserService) {
     @GetMapping("/me")
     fun getMe(@RequestAttribute("id") id: Long): ResponseEntity<UserResponseDto> =
         ResponseEntity.status(HttpStatus.CREATED).body(userService.getUser(id))
+
+    @PutMapping("/me/attendance")
+    fun applyAttendance(@RequestAttribute("id") id: Long) : ResponseEntity<UserDto> = ResponseEntity.status(HttpStatus.OK)
+        .body(userService.applyAttendance(id))
 }

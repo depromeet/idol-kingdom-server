@@ -1,6 +1,8 @@
 package com.example.idolkingdom.controller;
 
 
+import com.example.idolkingdom.controller.response.RankResponse
+import com.example.idolkingdom.dto.IdolDto
 import com.example.idolkingdom.dto.LocationDto
 import com.example.idolkingdom.dto.SchoolResponseDto
 import com.example.idolkingdom.exception.WrongParameterAcceptedException
@@ -45,4 +47,8 @@ class SchoolContoller(@Autowired private val schoolService: SchoolService) {
                 schoolService.search(LocationDto(startX, startY), LocationDto(endX, endY), size)
             else throw WrongParameterAcceptedException("query or (x, y) must not be null")
         )
+
+    @GetMapping("/school/rank")
+    fun getRank(@RequestParam("schoolId") schoolId: Long): ResponseEntity<RankResponse> = ResponseEntity.status(HttpStatus.OK)
+        .body(RankResponse(schoolService.getRank(schoolId).map { RankResponse.Rank(it.first, it.second) }))
 }

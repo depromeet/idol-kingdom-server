@@ -13,6 +13,7 @@ import com.example.idolkingdom.repository.VoteRepository
 import com.example.idolkingdom.service.VoteService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
+import java.lang.IllegalStateException
 
 @Service
 class VoteServiceImpl(@Autowired private val voteRepository: VoteRepository,
@@ -43,9 +44,12 @@ class VoteServiceImpl(@Autowired private val voteRepository: VoteRepository,
 
     override fun castBallot(dto: BallotRequestDto): BallotResponseDto {
         val user = userRepository.findById(dto.userId).get()
+        if (user.restBallotCount <= 0)
+            throw IllegalStateException("restBallotCount is ${user.restBallotCount}")
         val idol = idolGroupRepository.findById(dto.idolId).get()
         val vote = voteRepository.findById(dto.voteId).get()
-
+        user.restBallotCount -= 1
+        userRepository.save(user)
         return BallotResponseDto.of(
             ballotRepository.save(
                 Ballot(

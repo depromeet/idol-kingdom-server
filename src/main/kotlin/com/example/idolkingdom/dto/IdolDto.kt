@@ -23,7 +23,7 @@ data class IdolDto(
     )
 }
 
-fun IdolGroup.toEntity() = IdolDto(
+fun IdolGroup.toDto() = IdolDto(
     id!!,
     name,
     members.map {
