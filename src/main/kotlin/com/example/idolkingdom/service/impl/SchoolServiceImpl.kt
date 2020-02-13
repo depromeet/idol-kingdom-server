@@ -59,12 +59,12 @@ class SchoolServiceImpl(
         }
     }
 
-    override fun getRank(schoolId: Long): List<Pair<IdolDto, List<Long>>> {
+    override fun getRank(schoolId: Long): List<IdolDto> {
         val school = schoolRepository.getOne(schoolId)
         val students = school.users.map { it.id }
-        return voteRepository.findAll().last().ballots.filter { students.contains(it.user.id) }
+        return voteRepository.findTopByOrderByIdDesc().ballots.filter { students.contains(it.user.id) }
             .groupBy { it.idol }
-            .map { it.key.toDto() to it.value.mapNotNull { it.id } }
-            .sortedByDescending { it.second.size }
+            .map { it.key.toDto(it.value.mapNotNull { it.id }) }
+            .sortedByDescending { it.currentBallots.size }
     }
 }

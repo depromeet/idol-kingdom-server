@@ -59,9 +59,9 @@ class InsertIdolListEvent(
                 dao.groups.forEach {
                     val idolImageName = IdolImage.getIdolGroupByName(it)
                     val images: List<Image> = if (idolImageName != null) listOf(
-                        Image(url = S3_PATH + idolImageName + "/" + "marker.png"),
-                        Image(url = S3_PATH + idolImageName + "/" + "circle.png"),
-                        Image(url = S3_PATH + idolImageName + "/" + "card.png")
+                        Image(url = "$S3_PATH$idolImageName/marker.png"),
+                        Image(url = "$S3_PATH$idolImageName/circle.png"),
+                        Image(url = "$S3_PATH$idolImageName/card.png")
                     ) else listOf()
 
                     idol = idol.copy(

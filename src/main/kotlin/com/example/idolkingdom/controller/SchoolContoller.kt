@@ -1,6 +1,7 @@
 package com.example.idolkingdom.controller;
 
 
+import com.example.idolkingdom.controller.response.IdolGroupResponse
 import com.example.idolkingdom.controller.response.RankResponse
 import com.example.idolkingdom.dto.IdolDto
 import com.example.idolkingdom.dto.LocationDto
@@ -22,6 +23,10 @@ class SchoolContoller(@Autowired private val schoolService: SchoolService) {
     @GetMapping("/school")
     fun get(@RequestParam(value = "schoolIds", required = true) schoolIds: List<Long>): ResponseEntity<List<SchoolResponseDto>> =
         ResponseEntity.status(HttpStatus.OK).body(schoolService.get(schoolIds))
+
+    @GetMapping("/school/list")
+    fun getAll(): ResponseEntity<List<SchoolResponseDto>> =
+        ResponseEntity.status(HttpStatus.OK).body(schoolService.getAll())
 
     @GetMapping("/school/search")
     fun serach(
@@ -49,6 +54,6 @@ class SchoolContoller(@Autowired private val schoolService: SchoolService) {
         )
 
     @GetMapping("/school/rank")
-    fun getRank(@RequestParam("schoolId") schoolId: Long): ResponseEntity<RankResponse> = ResponseEntity.status(HttpStatus.OK)
-        .body(RankResponse(schoolService.getRank(schoolId).map { RankResponse.Rank(it.first, it.second) }))
+    fun getRank(@RequestParam("schoolId") schoolId: Long): ResponseEntity<IdolGroupResponse> = ResponseEntity.status(HttpStatus.OK)
+        .body(IdolGroupResponse(schoolService.getRank(schoolId).map { IdolGroupResponse.IdolGroup.of(it) }))
 }
