@@ -5,6 +5,13 @@ spring:
     show-sql: true
   main:
     allow-bean-definition-overriding: true
+  datasource:
+    url: jdbc:h2:mem:idol-kingdom
+    username: sa
+    password:
+    h2:
+      console:
+        enabled: true
 
 ---
 

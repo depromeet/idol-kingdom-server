@@ -11,7 +11,6 @@ import com.example.idolkingdom.service.UserService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
-import java.lang.IllegalArgumentException
 import java.time.LocalDateTime
 
 @Service
@@ -91,12 +90,12 @@ class UserServiceImpl(@Autowired private val userRepository: UserRepository,
         val user: User = userRepository.findByEmail(loginRequestDto.email)
             ?: throw DataNotFoundException("..")
         if (isCorrectPassword(loginRequestDto.password, user).not()) {
-            throw UserDataNotValidException("")
+            throw UserDataNotValidException("password not correct")
         }
         return user
     }
 
     private fun isCorrectPassword(password: String, user: User): Boolean {
-        return passwordEncoder.matches(user.password, password)
+        return passwordEncoder.matches(password, user.password)
     }
 }
