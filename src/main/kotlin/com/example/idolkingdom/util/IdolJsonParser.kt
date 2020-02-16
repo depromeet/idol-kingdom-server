@@ -25,7 +25,7 @@ object IdolJsonParser {
                     IdolDao.Info("", "", "", "", ""),
                     listOf()
                 )
-                groups.addAll(it.get("group").asString.replace("\"", "").split(","))
+                it.get("group").asString.replace("\"", "").split(",").filter { it.contains("..").not() }.firstOrNull()?.let { groups.add(it) }
                 val info = it.getAsJsonArray("info")
                 var bloodType: String = ""
                 var entertainmentName: String = ""
@@ -39,7 +39,6 @@ object IdolJsonParser {
                         graduation = it.get("학력")?.asString?.replace("\"", "") ?: graduation
                         hometown = it.get("출신")?.asString?.replace("\"", "") ?: hometown
                         birth = it.get("출생")?.asString?.replace("\"", "") ?: birth
-                        groups.addAll(it.get("그룹명")?.asString?.replace("\"", "")?.split(",") ?: listOf())
                     }
                 }
                 dao.copy(
@@ -50,9 +49,11 @@ object IdolJsonParser {
                         hometown,
                         birth
                     ),
-                    groups = groups.toList()
+                    groups = groups.map { it.trim() }.distinct()
                 )
             }
-        }.filter { it.name.contains("..".toRegex()).not() }
+        }.filter {
+            it.name.contains("..").not()
+        }
     }
 }

@@ -11,7 +11,7 @@ import com.example.idolkingdom.service.UserService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
-import java.lang.IllegalArgumentException
+import java.time.LocalDateTime
 
 @Service
 class UserServiceImpl(@Autowired private val userRepository: UserRepository,
@@ -66,7 +66,18 @@ class UserServiceImpl(@Autowired private val userRepository: UserRepository,
         }.get()
     }
 
-    fun validCreateUser(userDto: UserDto) {
+    override fun applyAttendance(id: Long): UserDto = userRepository.getOne(id).let { user ->
+        val now = LocalDateTime.now()
+        user.restBallotCount += user.lastAttendantDate?.let {
+            if (it.dayOfMonth < now.dayOfMonth)
+                1
+            else 0
+        } ?: 1
+        user.lastAttendantDate = now
+        return@let userRepository.save(user).toDto()
+    }
+
+    private fun validCreateUser(userDto: UserDto) {
         val user: User? = userRepository.findByEmail(
             userDto.email ?: throw IllegalArgumentException("email must not be null")
         )
@@ -79,12 +90,12 @@ class UserServiceImpl(@Autowired private val userRepository: UserRepository,
         val user: User = userRepository.findByEmail(loginRequestDto.email)
             ?: throw DataNotFoundException("..")
         if (isCorrectPassword(loginRequestDto.password, user).not()) {
-            throw UserDataNotValidException("")
+            throw UserDataNotValidException("password not correct")
         }
         return user
     }
 
     private fun isCorrectPassword(password: String, user: User): Boolean {
-        return passwordEncoder.matches(user.password, password)
+        return passwordEncoder.matches(password, user.password)
     }
 }

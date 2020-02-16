@@ -44,7 +44,6 @@ class UserController(private val userService: UserService, private val service: 
     fun getMe(@RequestAttribute("id") id: Long): ResponseEntity<UserResponseDto> =
         ResponseEntity.status(HttpStatus.CREATED).body(userService.getUser(id))
 
-
     @GetMapping("/users/profile")
     fun downloadProfileImage(@RequestAttribute("id") userId: Long): ResponseEntity<Resource> {
         return try {
@@ -62,5 +61,8 @@ class UserController(private val userService: UserService, private val service: 
         return ResponseEntity.created(URI("$BASE_URI/$BUCKET_NAME/objects/$objectKey")).build()
     }
 
+    @PutMapping("/me/attendance")
+    fun applyAttendance(@RequestAttribute("id") id: Long) : ResponseEntity<UserDto> = ResponseEntity.status(HttpStatus.OK)
+        .body(userService.applyAttendance(id))
 
 }

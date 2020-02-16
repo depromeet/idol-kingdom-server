@@ -1,8 +1,6 @@
 package com.example.idolkingdom.controller;
 
-import com.example.idolkingdom.dto.IdolGroupResponseDto
-import com.example.idolkingdom.dto.IdolDto
-import com.example.idolkingdom.model.IdolGroup
+import com.example.idolkingdom.controller.response.IdolGroupResponse
 import com.example.idolkingdom.service.IdolService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
@@ -14,21 +12,23 @@ import org.springframework.web.bind.annotation.RestController
 
 @RestController
 @RequestMapping("/api")
-class IdolContoller(@Autowired private val idolService: IdolService) {
+class IdolContoller(
+    @Autowired private val idolService: IdolService
+) {
 
     @GetMapping("/idol/list")
-    fun get(@RequestParam("name") name: String?): ResponseEntity<List<IdolGroup>> = ResponseEntity.status(HttpStatus.OK)
+    fun get(@RequestParam("name") name: String?): ResponseEntity<IdolGroupResponse> = ResponseEntity.status(HttpStatus.OK)
         .body(
-            if (name == null)
+            IdolGroupResponse((if (name == null)
                 idolService.getAll()
-            else idolService.get(name)
+            else idolService.get(name)).map { IdolGroupResponse.IdolGroup.of(it) })
         )
 
     @GetMapping("/idol")
-    fun get(@RequestParam idolId: Long): ResponseEntity<IdolGroupResponseDto> =
-        ResponseEntity.status(HttpStatus.OK).body(idolService.get(idolId))
+    fun get(@RequestParam idolId: Long): ResponseEntity<IdolGroupResponse.IdolGroup> =
+        ResponseEntity.status(HttpStatus.OK).body(IdolGroupResponse.IdolGroup.of(idolService.get(idolId)))
 
     @GetMapping("/idol/search")
-    fun serach(@RequestParam("query") query: String): ResponseEntity<List<IdolDto>> = ResponseEntity.status(HttpStatus.OK)
-        .body(idolService.search(query))
+    fun serach(@RequestParam("query") query: String): ResponseEntity<IdolGroupResponse> = ResponseEntity.status(HttpStatus.OK)
+        .body(IdolGroupResponse(idolService.search(query).map { IdolGroupResponse.IdolGroup.of(it) }))
 }

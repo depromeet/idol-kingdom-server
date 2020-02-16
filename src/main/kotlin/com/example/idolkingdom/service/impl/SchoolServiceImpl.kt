@@ -1,7 +1,9 @@
 package com.example.idolkingdom.service.impl
 
+import com.example.idolkingdom.dto.IdolDto
 import com.example.idolkingdom.dto.LocationDto
 import com.example.idolkingdom.dto.SchoolResponseDto
+import com.example.idolkingdom.dto.toDto
 import com.example.idolkingdom.exception.DataNotFoundException
 import com.example.idolkingdom.repository.SchoolRepository
 import com.example.idolkingdom.repository.VoteRepository
@@ -55,5 +57,14 @@ class SchoolServiceImpl(
                 ballots = lastVote.ballots.filter { users.contains(it.user.id) }.map { it.id }
             }
         }
+    }
+
+    override fun getRank(schoolId: Long): List<IdolDto> {
+        val school = schoolRepository.getOne(schoolId)
+        val students = school.users.map { it.id }
+        return voteRepository.findTopByOrderByIdDesc().ballots.filter { students.contains(it.user.id) }
+            .groupBy { it.idol }
+            .map { it.key.toDto(it.value.mapNotNull { it.id }) }
+            .sortedByDescending { it.currentBallots.size }
     }
 }

@@ -1,7 +1,6 @@
 package com.example.idolkingdom.dto
 
-class BallotRequestDto(
-    val userId: Long,
+class BallotRequest(
     val idolId: Long,
     val voteId: Long
 )

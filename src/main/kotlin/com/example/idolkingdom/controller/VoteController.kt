@@ -1,10 +1,9 @@
 package com.example.idolkingdom.controller
 
-import com.example.idolkingdom.dto.BallotRequestDto
-import com.example.idolkingdom.dto.BallotResponseDto
+import com.example.idolkingdom.dto.BallotRequest
+import com.example.idolkingdom.controller.response.BallotResponse
 import com.example.idolkingdom.dto.VoteRequestDto
 import com.example.idolkingdom.dto.VoteResponseDto
-import com.example.idolkingdom.model.Ballot
 import com.example.idolkingdom.service.VoteService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
@@ -20,7 +19,7 @@ class VoteController(@Autowired private val voteService: VoteService) {
         ResponseEntity.status(HttpStatus.OK).body(voteService.getVoteList())
 
     @GetMapping("/vote")
-    fun getVoteList(@RequestBody voteId: Long): ResponseEntity<VoteResponseDto> =
+    fun getVote(@RequestParam voteId: Long): ResponseEntity<VoteResponseDto> =
         ResponseEntity.status(HttpStatus.OK).body(voteService.get(voteId))
 
     @GetMapping("/vote/current")
@@ -28,7 +27,7 @@ class VoteController(@Autowired private val voteService: VoteService) {
         ResponseEntity.status(HttpStatus.OK).body(voteService.getVoteList().last())
 
     @GetMapping("/vote/ballots")
-    fun getBallotList(@RequestBody ballotIds: List<Long>): ResponseEntity<List<BallotResponseDto>> =
+    fun getBallotList(@RequestParam(value = "ballotIds", required = true) ballotIds: List<Long>): ResponseEntity<List<BallotResponse>> =
         ResponseEntity.status(HttpStatus.OK).body(voteService.getBallots(ballotIds))
 
     @PostMapping("/vote")
@@ -40,6 +39,6 @@ class VoteController(@Autowired private val voteService: VoteService) {
         ResponseEntity.status(HttpStatus.OK).body(voteService.deleteVote(voteId))
 
     @PostMapping("/ballot")
-    fun createBallot(@RequestBody ballotRequestDto: BallotRequestDto): ResponseEntity<BallotResponseDto> =
-        ResponseEntity.status(HttpStatus.CREATED).body(voteService.castBallot(ballotRequestDto))
+    fun createBallot(@RequestAttribute("id") id: Long, @RequestBody ballotRequest: BallotRequest): ResponseEntity<BallotResponse> =
+        ResponseEntity.status(HttpStatus.CREATED).body(voteService.castBallot(id, ballotRequest))
 }

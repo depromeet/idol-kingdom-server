@@ -27,6 +27,8 @@ data class User(
     var idols: List<IdolGroup> = listOf(),
     @OneToMany(mappedBy = "user")
     var ballots: List<Ballot> = listOf(),
+    var restBallotCount: Int = 0,
+    var lastAttendantDate: LocalDateTime? = null,
     @CreatedDate
     val createdAt: LocalDateTime = LocalDateTime.now()
 )

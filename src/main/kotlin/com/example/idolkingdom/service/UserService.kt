@@ -7,4 +7,5 @@ interface UserService {
     fun validateEmail(email: EmailDto): Boolean
     fun login(loginRequestDto: LoginRequestDto): LoginResponseDto
     fun getUser(userId: Long): UserResponseDto
+    fun applyAttendance(id: Long): UserDto
 }
