@@ -18,6 +18,7 @@ data class User(
     val email: String,
     val password: String,
     val nickName: String,
+    var profileImage: String? = null,
     @ManyToMany
     @JoinColumn(name = "school_id")
     var schools: List<School> = listOf(),

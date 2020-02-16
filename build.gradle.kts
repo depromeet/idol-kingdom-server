@@ -48,11 +48,18 @@ dependencies {
     api("io.springfox:springfox-swagger2:2.9.2")
 
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.10.1")
+
+    implementation("org.springframework.cloud:spring-cloud-starter-aws")
     
 
 
 }
 
+dependencyManagement {
+    imports {
+        mavenBom("org.springframework.cloud:spring-cloud-dependencies:Greenwich.SR3")
+    }
+}
 
 tasks.withType<Test> {
     useJUnitPlatform()
