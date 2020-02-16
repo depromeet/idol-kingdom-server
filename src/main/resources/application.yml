@@ -37,8 +37,8 @@ server:
 ---
 cloud.aws:
   credentials:
-    accessKey: AKIAYWNN5S4FKL3ZCMV4
-    secretKey: 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
+    accessKey: accessKey
+    secretKey: secretKey
   region:
     static: ap-northeast-2
   stack:
