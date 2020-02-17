@@ -32,6 +32,9 @@ class SchoolServiceImpl(
         }.map {
             SchoolResponseDto.of(it).apply {
                 ballots = lastVote.ballots.filter { users.contains(it.user.id) }.map { it.id }
+                lastVote.ballots.groupBy { it.idol }.map { it.value }.sortedByDescending { it.size }.firstOrNull()?.firstOrNull()?.idol?.let { winner ->
+                    markerImage = winner.images.find { it.url.contains("marker") }?.url
+                }
             }
         }
     }
@@ -55,6 +58,9 @@ class SchoolServiceImpl(
         }.map {
             SchoolResponseDto.of(it).apply {
                 ballots = lastVote.ballots.filter { users.contains(it.user.id) }.map { it.id }
+                lastVote.ballots.groupBy { it.idol }.map { it.value }.sortedByDescending { it.size }.firstOrNull()?.firstOrNull()?.idol?.let { winner ->
+                    markerImage = winner.images.find { it.url.contains("marker") }?.url
+                }
             }
         }
     }

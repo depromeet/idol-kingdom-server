@@ -11,6 +11,7 @@ data class SchoolResponseDto(
     val location: Location,
     val level: School.Level,
     var users: List<Long?>,
+    var markerImage: String?,
     var ballots: List<Long?> = emptyList()
 ) {
     companion object {
@@ -21,7 +22,8 @@ data class SchoolResponseDto(
                 address = school.address,
                 location = school.location,
                 level = school.level,
-                users = school.users.map { u -> u.id }
+                users = school.users.map { u -> u.id },
+                markerImage = null
             )
         }
     }
