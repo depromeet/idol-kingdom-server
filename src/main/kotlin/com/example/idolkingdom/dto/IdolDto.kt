@@ -8,7 +8,7 @@ data class IdolDto(
     val markerImage: String?,
     val circleImage: String?,
     var images: List<String> = listOf(),
-    var currentBallots: List<Long?>
+    var currentBallots: List<Long?>?
 ) {
 }
 

@@ -12,6 +12,7 @@ data class SchoolDto(
     val address: String,
     val location: Location,
     val level: School.Level,
-    val users: List<User>,
-    val lastVote: Vote
+    val users: List<User>?,
+    val lastVote: Vote?
 )
+

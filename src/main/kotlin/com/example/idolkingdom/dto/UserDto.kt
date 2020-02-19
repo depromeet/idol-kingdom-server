@@ -9,7 +9,7 @@ data class UserDto(
     val nickName: String?,
     val schools: List<Long>?,
     val idols: List<Long>?,
-    val restBallotsCount: Int = 0,
+    val restBallotsCount: Int? = 0,
     val lastAttendantDate: LocalDateTime? = null
 )
 
@@ -17,3 +17,6 @@ fun User.toDto() = UserDto(
     email, null, nickName, schools.mapNotNull { it.id }, idols.mapNotNull { it.id }, restBallotCount, lastAttendantDate
 )
 
+fun User.toOutSiderDto() = UserDto(
+    null, null, nickName, schools.mapNotNull { it.id }, idols.mapNotNull { it.id }, null, null
+)

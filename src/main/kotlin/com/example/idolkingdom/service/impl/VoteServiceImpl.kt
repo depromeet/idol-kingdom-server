@@ -1,6 +1,6 @@
 package com.example.idolkingdom.service.impl
 
-import com.example.idolkingdom.dto.BallotRequest
+import com.example.idolkingdom.controller.request.BallotRequest
 import com.example.idolkingdom.controller.response.BallotResponse
 import com.example.idolkingdom.dto.VoteRequestDto
 import com.example.idolkingdom.dto.VoteResponseDto

@@ -11,7 +11,7 @@ class IdolGroupResponse(
         val markerImage: String?,
         val circleImage: String?,
         var images: List<String>,
-        var currentBallots: List<Long?>
+        var currentBallots: List<Long?>?
     ) {
         companion object {
             fun of(dto: IdolDto): IdolGroup {

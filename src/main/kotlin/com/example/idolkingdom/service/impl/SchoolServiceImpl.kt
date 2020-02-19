@@ -71,6 +71,6 @@ class SchoolServiceImpl(
         return voteRepository.findTopByOrderByIdDesc().ballots.filter { students.contains(it.user.id) }
             .groupBy { it.idol }
             .map { it.key.toDto(it.value.mapNotNull { it.id }) }
-            .sortedByDescending { it.currentBallots.size }
+            .sortedByDescending { it.currentBallots?.size }
     }
 }

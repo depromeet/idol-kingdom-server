@@ -1,4 +1,4 @@
-package com.example.idolkingdom.dto
+package com.example.idolkingdom.controller.request
 
 class BallotRequest(
     val idolId: Long,
