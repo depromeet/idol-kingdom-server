@@ -18,8 +18,8 @@ class CommentContoller(
 
     @GetMapping("/comment")
     fun get(
-        @RequestParam(value = "schoolIds", required = true) schoolIds: List<Long>?,
-        @RequestParam(value = "idolIds", required = true) idolIds: List<Long>?,
+        @RequestParam(value = "schoolIds") schoolIds: List<Long>?,
+        @RequestParam(value = "idolIds") idolIds: List<Long>?,
         @RequestParam userId: Long?
     ): ResponseEntity<CommentResponse> = ResponseEntity.status(HttpStatus.OK)
         .body(
