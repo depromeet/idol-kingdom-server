@@ -33,7 +33,7 @@ class UserController(private val userService: UserService, private val service: 
         else HttpStatus.FORBIDDEN
     ).body(email)
 
-    @PatchMapping("/users")
+    @PatchMapping("/users/profile")
     fun updateUser(@RequestAttribute("id") id: Long, @RequestBody request: UpdateUserRequest) =
         ResponseEntity.status(HttpStatus.OK).body(
             userService.updateUser(
