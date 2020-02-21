@@ -4,19 +4,22 @@ import com.example.idolkingdom.model.User
 import java.time.LocalDateTime
 
 data class UserDto(
+    val id: Long?,
     val email: String?,
     var password: String?,
     val nickName: String?,
-    val schools: List<Long>?,
-    val idols: List<Long>?,
+    val profileImage: String?,
+    val schools: List<Long?>?,
+    val idols: List<Long?>?,
+    var ballotList: List<Long?>?,
     val restBallotsCount: Int? = 0,
     val lastAttendantDate: LocalDateTime? = null
 )
 
 fun User.toDto() = UserDto(
-    email, null, nickName, schools.mapNotNull { it.id }, idols.mapNotNull { it.id }, restBallotCount, lastAttendantDate
+    id, email, null, nickName, profileImage, schools.mapNotNull { it.id }, idols.mapNotNull { it.id }, ballots.map { b -> b.id }, restBallotCount, lastAttendantDate
 )
 
 fun User.toOutSiderDto() = UserDto(
-    null, null, nickName, schools.mapNotNull { it.id }, idols.mapNotNull { it.id }, null, null
+    id, null, null, nickName, profileImage, schools.mapNotNull { it.id }, idols.mapNotNull { it.id }, null, null, null
 )

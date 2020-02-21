@@ -53,15 +53,19 @@ class UserServiceImpl(@Autowired private val userRepository: UserRepository,
         return LoginResponseDto(token)
     }
 
-    override fun getUser(userId: Long): UserResponseDto {
+    override fun getUser(userId: Long): UserDto {
         return userRepository.findById(userId).map { user ->
-            UserResponseDto(
+            UserDto(
                 id = user.id,
                 email = user.email,
+                profileImage = user.profileImage,
+                password = null,
                 nickName = user.nickName,
-                schoolList = user.schools.sortedByDescending { it.level.ordinal }.map { s -> s.id },
-                idolIdList = user.idols.map { idol -> idol.id },
-                ballotList = user.ballots.map { b -> b.id }
+                schools = user.schools.sortedByDescending { it.level.ordinal }.map { s -> s.id },
+                idols = user.idols.map { idol -> idol.id },
+                ballotList = user.ballots.map { b -> b.id },
+                restBallotsCount = user.restBallotCount,
+                lastAttendantDate = user.lastAttendantDate
             )
         }.get()
     }

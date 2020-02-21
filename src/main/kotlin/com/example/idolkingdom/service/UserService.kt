@@ -6,6 +6,6 @@ interface UserService {
     fun createUser(userDto: UserDto): LoginResponseDto
     fun validateEmail(email: EmailDto): Boolean
     fun login(loginRequestDto: LoginRequestDto): LoginResponseDto
-    fun getUser(userId: Long): UserResponseDto
+    fun getUser(userId: Long): UserDto
     fun applyAttendance(id: Long): UserDto
 }

@@ -37,11 +37,11 @@ class UserController(private val userService: UserService, private val service: 
         ResponseEntity.status(HttpStatus.CREATED).body(userService.createUser(userDto))
 
     @GetMapping("/users")
-    fun getUser(@RequestParam userId: Long): ResponseEntity<UserResponseDto> =
+    fun getUser(@RequestParam userId: Long): ResponseEntity<UserDto> =
         ResponseEntity.status(HttpStatus.OK).body(userService.getUser(userId))
 
     @GetMapping("/me")
-    fun getMe(@RequestAttribute("id") id: Long): ResponseEntity<UserResponseDto> =
+    fun getMe(@RequestAttribute("id") id: Long): ResponseEntity<UserDto> =
         ResponseEntity.status(HttpStatus.CREATED).body(userService.getUser(id))
 
     @GetMapping("/users/profile")
