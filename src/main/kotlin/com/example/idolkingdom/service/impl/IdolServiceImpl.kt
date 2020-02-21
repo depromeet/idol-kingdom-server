@@ -48,7 +48,7 @@ class IdolServiceImpl(
 
     override fun search(query: String): List<IdolDto> {
         val currentVote = voteRepository.findTopByOrderByIdDesc()
-        return idolRepository.findByNameLike(query).map {
+        return idolRepository.findByNameLikeIgnoreCase(query).map {
             it.toDto(
                 it.ballots
                     .filter { it.vote.id == currentVote.id }

@@ -8,5 +8,5 @@ import org.springframework.data.jpa.repository.Query
 interface IdolGroupRepository : JpaRepository<IdolGroup, Long> {
     fun findByName(name: String): List<IdolGroup>
     @Query("SELECT i FROM IdolGroup i WHERE i.name LIKE %?1%")
-    fun findByNameLike(name: String): List<IdolGroup>
+    fun findByNameLikeIgnoreCase(name: String): List<IdolGroup>
 }
