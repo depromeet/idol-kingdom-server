@@ -1,5 +1,8 @@
 package com.example.idolkingdom.controller;
 
+import com.example.idolkingdom.controller.request.IdsRequest
+import com.example.idolkingdom.controller.request.UpdateUserRequest
+import com.example.idolkingdom.controller.response.IdolGroupResponse
 import com.example.idolkingdom.dto.*
 import com.example.idolkingdom.exception.S3KeyDoesNotExistException
 import com.example.idolkingdom.service.UserService
@@ -31,6 +34,19 @@ class UserController(private val userService: UserService, private val service: 
             HttpStatus.OK
         else HttpStatus.FORBIDDEN
     ).body(email)
+
+    @PatchMapping("/users")
+    fun updateUser(@RequestAttribute("id") id: Long, @RequestBody request: UpdateUserRequest) =
+        ResponseEntity.status(HttpStatus.OK).body(
+            userService.updateUser(
+                id,
+                request.data.email,
+                request.data.password,
+                request.data.nickName,
+                request.data.schools,
+                request.data.idols
+            )
+        )
 
     @PostMapping("/users")
     fun createUser(@RequestBody userDto: UserDto): ResponseEntity<LoginResponseDto> =

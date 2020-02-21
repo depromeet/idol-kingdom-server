@@ -15,9 +15,9 @@ data class User(
     @Id
     @GeneratedValue
     val id: Long? = null,
-    val email: String,
-    val password: String,
-    val nickName: String,
+    var email: String,
+    var password: String,
+    var nickName: String,
     var profileImage: String? = null,
     @ManyToMany
     @JoinColumn(name = "school_id")

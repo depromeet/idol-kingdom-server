@@ -81,6 +81,16 @@ class UserServiceImpl(@Autowired private val userRepository: UserRepository,
         return@let userRepository.save(user).toDto()
     }
 
+    override fun updateUser(userId: Long, email: String?, password: String?, nickname: String?, schools: List<Long>?, idols: List<Long>?): LoginResponseDto {
+        val user = userRepository.getOne(userId)
+        user.email = email ?: user.email
+        user.password = password?.let(passwordEncoder::encode) ?: user.password
+        user.nickName = nickname ?: user.nickName
+        user.schools = schools?.let(schoolRepository::findAllById) ?: user.schools
+        user.idols = idols?.let(idolRepository::findAllById) ?: user.idols
+        return userRepository.save(user).let(jwtTokenUtil::generateToken).let(::LoginResponseDto)
+    }
+
     private fun validCreateUser(userDto: UserDto) {
         val user: User? = userRepository.findByEmail(
             userDto.email ?: throw IllegalArgumentException("email must not be null")
