@@ -37,6 +37,15 @@ class VoteServiceImpl(@Autowired private val voteRepository: VoteRepository,
 
     override fun get(voteId: Long): VoteResponseDto = VoteResponseDto.of(voteRepository.getOne(voteId))
 
+    override fun getCurrentVote(id: Long): VoteResponseDto {
+        val user = userRepository.getOne(id)
+        val vote = voteRepository.findTopByOrderByIdDesc()
+        return VoteResponseDto.of(
+            vote,
+            vote.ballots.filter { it.user.id == user.id }.map(BallotResponse.Companion::of)
+        )
+    }
+
     override fun deleteVote(voteId: Long): String {
         voteRepository.deleteById(voteId)
         return "success"

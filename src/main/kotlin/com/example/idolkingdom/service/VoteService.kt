@@ -12,4 +12,5 @@ interface VoteService {
     fun getVoteList(): List<VoteResponseDto>
     fun get(voteId: Long): VoteResponseDto
     fun getBallots(ballotIds: List<Long>): List<BallotResponse>
+    fun getCurrentVote(id : Long) : VoteResponseDto
 }
