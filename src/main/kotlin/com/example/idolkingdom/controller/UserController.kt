@@ -1,8 +1,6 @@
 package com.example.idolkingdom.controller;
 
-import com.example.idolkingdom.controller.request.IdsRequest
 import com.example.idolkingdom.controller.request.UpdateUserRequest
-import com.example.idolkingdom.controller.response.IdolGroupResponse
 import com.example.idolkingdom.dto.*
 import com.example.idolkingdom.exception.S3KeyDoesNotExistException
 import com.example.idolkingdom.service.UserService
