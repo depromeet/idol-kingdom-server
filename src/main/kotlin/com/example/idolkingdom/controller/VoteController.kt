@@ -2,6 +2,7 @@ package com.example.idolkingdom.controller
 
 import com.example.idolkingdom.controller.request.BallotRequest
 import com.example.idolkingdom.controller.response.BallotResponse
+import com.example.idolkingdom.controller.response.IdolGroupResponse
 import com.example.idolkingdom.dto.VoteRequestDto
 import com.example.idolkingdom.dto.VoteResponseDto
 import com.example.idolkingdom.service.VoteService
@@ -25,6 +26,10 @@ class VoteController(@Autowired private val voteService: VoteService) {
     @GetMapping("/vote/current")
     fun getCurrentVote(@RequestAttribute("id") id: Long): ResponseEntity<VoteResponseDto> =
         ResponseEntity.status(HttpStatus.OK).body(voteService.getCurrentVote(id))
+
+    @GetMapping("/vote/current/rank")
+    fun getCurrentRank(): ResponseEntity<IdolGroupResponse> =
+        ResponseEntity.status(HttpStatus.OK).body(IdolGroupResponse(voteService.getCurrentRank().map(IdolGroupResponse.IdolGroup.Companion::of)))
 
     @GetMapping("/vote/ballots")
     fun getBallotList(@RequestParam(value = "ballotIds", required = true) ballotIds: List<Long>): ResponseEntity<List<BallotResponse>> =

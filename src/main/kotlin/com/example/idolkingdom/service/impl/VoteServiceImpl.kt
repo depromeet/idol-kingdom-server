@@ -2,8 +2,11 @@ package com.example.idolkingdom.service.impl
 
 import com.example.idolkingdom.controller.request.BallotRequest
 import com.example.idolkingdom.controller.response.BallotResponse
+import com.example.idolkingdom.controller.response.IdolGroupResponse
+import com.example.idolkingdom.dto.IdolDto
 import com.example.idolkingdom.dto.VoteRequestDto
 import com.example.idolkingdom.dto.VoteResponseDto
+import com.example.idolkingdom.dto.toDto
 import com.example.idolkingdom.model.Ballot
 import com.example.idolkingdom.model.Vote
 import com.example.idolkingdom.repository.BallotRepository
@@ -45,6 +48,12 @@ class VoteServiceImpl(@Autowired private val voteRepository: VoteRepository,
             vote.ballots.filter { it.user.id == user.id }.map(BallotResponse.Companion::of)
         )
     }
+
+    override fun getCurrentRank(): List<IdolDto> = voteRepository.findTopByOrderByIdDesc()
+        .ballots
+        .groupBy { it.idol }
+        .map { it.key.toDto(it.value.mapNotNull { it.id }) }
+        .sortedByDescending { it.currentBallots?.size }
 
     override fun deleteVote(voteId: Long): String {
         voteRepository.deleteById(voteId)

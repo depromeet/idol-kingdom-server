@@ -2,6 +2,8 @@ package com.example.idolkingdom.service
 
 import com.example.idolkingdom.controller.request.BallotRequest
 import com.example.idolkingdom.controller.response.BallotResponse
+import com.example.idolkingdom.controller.response.IdolGroupResponse
+import com.example.idolkingdom.dto.IdolDto
 import com.example.idolkingdom.dto.VoteRequestDto
 import com.example.idolkingdom.dto.VoteResponseDto
 
@@ -13,4 +15,5 @@ interface VoteService {
     fun get(voteId: Long): VoteResponseDto
     fun getBallots(ballotIds: List<Long>): List<BallotResponse>
     fun getCurrentVote(id : Long) : VoteResponseDto
+    fun getCurrentRank() : List<IdolDto>
 }
